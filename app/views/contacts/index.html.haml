@@ -1,0 +1,21 @@
+%h1 お問い合わせフォーム
+%p お問い合わせはこちらよりお送りください
+
+- if @contact.errors.any?
+  .alert.alert-danger{role: "alert"}
+    %ul
+      - @contact.errors.each do |attr, msg|
+        %li= msg
+
+= form_for @contact, url: confirm_contacts_path, method: "POST" do |f|
+  .form-group
+    = f.label :name, "お名前"
+    = f.text_field :name, class: "form-control"
+  .form-group
+    = f.label :email, "メールアドレス"
+    = f.text_field :email, class: "form-control"
+  .form-group
+    = f.label :message, "お問い合わせ内容"
+    = f.text_area :message, class: "form-control"
+  .send_btn
+    = f.submit "確　認", class: "btn btn-primary"
