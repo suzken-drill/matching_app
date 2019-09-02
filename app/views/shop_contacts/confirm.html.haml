@@ -1,0 +1,24 @@
+%h1 店舗用お問い合わせフォーム
+%p 内容に間違いなどないかご確認ください
+
+= form_for @shop_contact do |f|
+  .form-group
+    = f.label :shop_name, "店舗名"
+    = @shop_contact.shop_name
+    = f.hidden_field :shop_name, value: @shop_contact.shop_name
+  .form-group
+    = f.label :person_name, "ご担当者名"
+    = @shop_contact.person_name
+    = f.hidden_field :person_name, value: @shop_contact.person_name
+  .form-group
+    = f.label :email, "メールアドレス"
+    = @shop_contact.email
+    = f.hidden_field :email, value: @shop_contact.email
+  .form-group
+    = f.label :message, "お問い合わせ内容"
+    = @shop_contact.message.gsub(/\R/, "<br>").html_safe
+    = f.hidden_field :message, value: @shop_contact.message
+  .send_btn
+    = f.submit "送　信", class: "btn btn-primary"
+    = "　"
+    = f.submit "戻　る", name: 'back', class: "btn btn-primary"

@@ -1,0 +1,24 @@
+ja:
+  date:
+    formats:
+      default: "%Y/%m/%d"
+      long: "%Y年%m月%d日(%a)"
+      short: "%m/%d"
+  time:
+    formats:
+      default: "%Y/%m/%d %H:%M:%S"
+      long: "%Y年%m月%d日(%a) %H時%M分%S秒 %z"
+      short: "%y/%m/%d %H:%M"
+  message:
+    form_error: "入力内容をご確認ください"
+    system_error: "システムエラーが発生しました！登録をやり直してください"
+    send_email_thanks: "お問い合わせを受け付けました"
+    contact_form:
+      form_name_error: "お名前を入力してください"
+      form_email_error: "メールアドレスを入力してください"
+      form_email_length_error: "メールアドレスが長すぎます"
+      form_email_format_error: "メールアドレスの形式に誤りがあります"
+      form_message_error: "お問い合わせ内容を入力してください"
+      form_shop_name_error: "店舗名を入力してください"
+      form_person_name_error: "ご担当者名を入力してください"
+      form_other_error: "システムエラーが発生しました"

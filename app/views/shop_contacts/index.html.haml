@@ -1,0 +1,24 @@
+%h1 店舗用お問い合わせフォーム
+%p 店舗掲載に関するお問い合わせはこちらよりお送りください
+
+- if @shop_contact.errors.any?
+  .alert.alert-danger{role: "alert"}
+    %ul
+      - @shop_contact.errors.each do |attr, msg|
+        %li= msg
+
+= form_for @shop_contact, url: confirm_shop_contacts_path, method: "POST" do |f|
+  .form-group
+    = f.label :shop_name, "店舗名"
+    = f.text_field :shop_name, class: "form-control"
+  .form-group
+    = f.label :person_name, "ご担当者名"
+    = f.text_field :person_name, class: "form-control"
+  .form-group
+    = f.label :email, "メールアドレス"
+    = f.text_field :email, class: "form-control"
+  .form-group
+    = f.label :message, "お問い合わせ内容"
+    = f.text_area :message, class: "form-control"
+  .send_btn
+    = f.submit "確　認", class: "btn btn-primary"
