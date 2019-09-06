@@ -16,16 +16,20 @@
     <%= render "layouts/header" %>
 
     <div class="container">
+      <%= render "layouts/search" %>
+    </div>
+
+    <div class="container">
       <% if flash[:notice].present? %>
         <div class="alert alert-success">
           <button type="button" class="close" data-dismiss="alert">&times;</button>
-          <%= flash[:notice].html_safe %>
+          <%= notice.html_safe %>
         </div>
       <% end %>
       <% if flash[:error].present? %>
         <div class="alert alert-danger">
           <button type="button" class="close" data-dismiss="alert">&times;</button>
-          <%= flash[:error].html_safe %>
+          <%= alert.html_safe %>
         </div>
       <% end %>
     </div>

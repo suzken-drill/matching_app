@@ -1,0 +1,19 @@
+%h1 ショップ記事一覧
+
+- if @admin_posts.present?
+  .admin_posts
+    %ul
+      - @admin_posts.each do |admin_post|
+        %li
+          .title= link_to admin_post.title, post_path(id: admin_post.id)
+          .excerpt= admin_post.excerpt
+          .created_at= "公開日時:#{l(admin_post.created_at)}"
+- else
+  ショップ記事はまだ登録されていません
+
+%br
+= will_paginate @admin_posts, renderer: BootstrapPaginationHelper::LinkRenderer, :previous_label => '&laquo;', :next_label => '&raquo;'
+
+%hr
+
+= render "layouts/back"

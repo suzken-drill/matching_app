@@ -1,0 +1,86 @@
+= render partial: "shops/breadcrumb", locals: {shop: @shop}
+
+= render partial: "shops/sns", locals: {shop: @shop}
+
+.head
+  %h1= @shop.name
+  .url= link_to @shop.url, @shop.url, target: :_blank
+  .footer
+    %span.like= "いいね#{@shop.shop_likes.count}件"
+    %span.review= "口コミ#{@shop.shop_reviews.count}件"
+    %span.point= "評価+#{@shop.eval_point}P"
+    %span.photo= "写真#{@shop.total_photo_count}件"
+
+.body
+  .owner_images
+  %h2.headline= @shop.headline
+  %p.description= @shop.description
+
+-# 写真一覧
+%h2 投稿写真
+- if @shop.total_photo_count > 0
+  .photos
+    - @shop.total_photos.limit(Shop::SHOW_PHOTO_NUM).each do |photo|
+      .image= image_tag photo.filename, alt: photo.comment
+      .comment= photo.comment
+
+-# 口コミ一覧
+%h2 口コミ
+- if @shop.shop_reviews.count > 0
+  .reviews
+    - @shop.shop_reviews.order(created_at: :desc).limit(Shop::SHOW_REVIEW_NUM).each do |review|
+      .review
+        .user
+          %span.name= "投稿者:#{review.user.nick_name}"
+          %span.count= "(#{review.user.shop_reviews.count}件)"
+        %h3.item_name= review.item_name
+        %p.description= review.description
+        .footer
+          %span.purchased_at= "購入日時:#{l(review.purchased_at, format: :long)}"
+          %span.total_eval= "+#{review.shop_review_evals.sum(:eval_value)}P"
+          %span.like= "いいね#{review.shop_review_likes.count}件"
+
+
+-# 店舗情報
+%h2 ショップ情報
+%table
+  %tr
+    %th ショップ名
+    %td= @shop.name
+  %tr
+    %th URL
+    %td= link_to @shop.url, @shop.url, target: :_blank
+  %tr
+    %th ジャンル
+    %td= @shop.category.name
+  %tr
+    %th 支払方法
+    %td= ""
+  %tr
+    %th 営業日時
+    %td= ""
+  %tr
+    %th 納期
+    %td= ""
+  %tr
+    %th サポート体制
+    %td= ""
+  %tr
+    %th SNS
+    %td ブログ Twitter Instagram Facebook
+  %tr
+    %th 事業者
+    %td= @shop.owner.owner_name
+  %tr
+    %th 住所
+    %td= ""
+  %tr
+    %th 電話番号
+    %td= @shop.owner.owner_tel
+  %tr
+    %th その他
+    %td= @shop.owner.owner_introduction
+
+%hr
+
+= render "layouts/back"

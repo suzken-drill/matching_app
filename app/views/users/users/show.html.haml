@@ -1,0 +1,8 @@
+- if current_user.nick_name.present?
+  %h2= current_user.nick_name + "さん"
+- else
+  %p
+    = link_to "プロフィールの変更", edit_user_registration_path
+    よりニックネームを登録してください
+
+%p マイページの本文

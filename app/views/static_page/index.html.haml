@@ -1,2 +1,38 @@
 %h1 トップページ
 %p トップページの本文です
+
+%h2 カテゴリー一覧
+.categories
+  %ul
+    - @categories.each do |category|
+      %li
+        .name= link_to category.name, categories_slug1_path(slug1: category.slug)
+        .description= category.description.truncate(100, omission: '...')
+
+%h2 新着ショップ特集記事
+.admin_posts
+  - if @admin_posts.count > 0
+    %ul
+      - @admin_posts.each do |admin_post|
+        %li
+          .title= link_to admin_post.title, post_path(id: admin_post.id)
+          .excerpt= admin_post.excerpt
+          .created_at= "投稿日時:#{l(admin_post.created_at, format: :long)}"
+    - if @admin_posts.count > AdminPost::INDEX_POST_NUM
+      = link_to "ショップ特集記事一覧へ", posts_path
+  - else
+    %p 新着ショップ特集記事はまだ登録されていません
+
+%h2 新着商品レビュー記事
+.admin_reviews
+  - if@admin_reviews.count > 0
+    %ul
+      - @admin_reviews.each do |admin_review|
+        %li
+          .title= link_to admin_review.title, review_path(id: admin_review.id)
+          .excerpt= admin_review.excerpt
+          .created_at= "投稿日時:#{l(admin_review.created_at, format: :long)}"
+    - if @admin_reviews.count > AdminPost::INDEX_REVIEW_NUM
+      = link_to "商品レビュー記事一覧へ", reviews_path
+  - else
+    %p 新着商品レビュー記事はまだ登録されていません

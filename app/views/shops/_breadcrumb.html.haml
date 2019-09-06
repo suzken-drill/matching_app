@@ -1,0 +1,7 @@
+- breadcrumb = []
+- breadcrumb << {url: "#{Pathname.new('/')}", text: "SHOPPY!?"}
+- breadcrumb += shop.category_to_array
+- breadcrumb << {url: "#{Pathname.new('/').join('shop').join(shop.id.to_s)}", text: shop.name}
+- breadcrumb.each_with_index do |bread, i|
+  = " > " unless i == 0
+  = link_to bread[:text], bread[:url]

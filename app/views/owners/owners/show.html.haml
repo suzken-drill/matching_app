@@ -1,0 +1,8 @@
+- if current_owner.owner_name.present?
+  %h2= current_owner.owner_name + "さん"
+- else
+  %p
+    = link_to "店舗プロフィールの変更", edit_owner_registration_path
+    より店舗情報を登録してください
+
+%p マイページの本文

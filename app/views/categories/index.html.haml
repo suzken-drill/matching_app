@@ -1,0 +1,46 @@
+%h1
+  = @category.name + "の" if @category.present?
+  カテゴリー一覧
+
+-# 親カテゴリーに戻る
+- if @category.is_sub?
+  = link_to "#{@category.parent_category.name}に戻る", categories_slug1_path(slug1: @category.parent_category.slug)
+
+-# カテゴリーの説明
+- if @category.present?
+  %p
+    .cat_name= @category.name
+    .cat_description= @category.description
+
+-# サブカテゴリー一覧
+- if @category.present? && @category.is_original?
+  .categories
+    %ul
+      - @category.sub_categories.order(order: :desc).each do |category|
+        %li
+          .name= link_to category.name, categories_slug2_path(slug1: @category.slug, slug2: category.slug)
+          .description= category.description.truncate(100, omission: '...')
+
+%hr
+
+-# 店舗一覧
+
+- if @category.shops.count > 0
+  .shops
+    %ul
+      - @category.shops.each do |shop|
+        %li.shop
+          .name= link_to shop.name, shop_path(id: shop.id)
+          .description= shop.description.truncate(100, omission: '...')
+          .footer
+            %span.like= "いいね#{shop.shop_likes.count}件"
+            %span.review= "口コミ#{shop.shop_reviews.count}件"
+            %span.point= "評価+#{shop.eval_point}P"
+            %span.photo= "写真#{shop.total_photo_count}件"
+- else
+  - if @category.is_sub?
+    %p このカテゴリーにはショップが登録されていません
+
+%hr
+
+= render "layouts/back"

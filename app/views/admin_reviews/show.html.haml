@@ -1,0 +1,17 @@
+%h1= @admin_review.title
+.post_meta
+  .created_at= "投稿日:#{l(@admin_review.created_at, format: :long)}"
+  .updated_at= "最終更新日時:#{l(@admin_review.updated_at, format: :long)}"
+
+.post
+  %p= @admin_review.content.html_safe
+
+= render "admin_reviews/sns"
+
+%hr
+
+= render "admin_reviews/footer_navigation"
+
+%hr
+
+= render "layouts/back"
