@@ -1,0 +1,21 @@
+%h1= @admin_post.title
+.post_meta
+  .created_at= "投稿日:#{l(@admin_post.created_at, format: :long)}"
+  .updated_at= "最終更新日時:#{l(@admin_post.updated_at, format: :long)}"
+
+.post
+  %p= @admin_post.content.html_safe
+
+%h2 記事のショップはこちら
+.shop_link= link_to @admin_post.shop.name, shop_path(id: @admin_post.shop.id)
+
+%br
+= render "admin_posts/sns"
+
+%hr
+
+= render "admin_posts/footer_navigation"
+
+%hr
+
+= render "layouts/back"

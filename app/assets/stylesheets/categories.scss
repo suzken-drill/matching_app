@@ -1,0 +1,113 @@
+// Place all the styles related to the categories controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+@import "constant";
+
+body.categories {
+	// sidebar
+	.side-nav {
+		margin-bottom: 30px;
+		.card-header {
+			background-color: $footer-bg;
+			padding: 12px 15px 10px 15px;
+			h4 {
+				font-size: 0.85rem;
+				line-height: 1.0rem;
+				padding: 0;
+				margin: 0;
+			}
+		}
+		ul.list-group {
+			li.list-group-item {
+				padding: 0;
+				a {
+					display: block;
+					font-size: 0.85rem;
+					line-height: 1rem;
+					color: $base-text;
+					border-left: 8px solid $footer-bg;
+					padding: 10px 15px 8px 15px;
+					margin: 0;
+				}
+			}
+		}
+	}
+	.highlight {
+		background-color: #f8f9fa;
+		font-size: 0.85rem;
+		color: $gray;
+		padding: 10px 20px;
+		margin: 0 0 30px 0;
+	}
+	.categories {
+		li.card {
+			display: inline-block;
+			width: 265px;
+			vertical-align: top;
+			margin-right: 10px;
+			margin-bottom: 15px;
+			.card-header {
+				background-color: $footer-bg;
+				padding: 0;
+				.name {
+					font-size: 0.85rem;
+					line-height: 1rem;
+					a {
+						display: block;
+						color: $base-text;
+						padding: 10px 15px 8px 15px;
+					}
+				}
+			}
+			.card-body {
+				height: 85px;
+				overflow: hidden;
+				font-size: 0.85rem;
+				line-height: 1.2rem;
+				padding: 10px 15px 8px 15px;
+			}
+		}
+		li.card:nth-child(3n) {
+			margin-right: 0;
+		}
+	}
+	.shops {
+		li.shop {
+			padding: 0;
+			margin: 0 0 20px 0;
+			.name {
+				border-top: 3px solid $footer-bg;
+				border-bottom: 1px solid $footer-bg;
+				padding: 10px 10px;
+				margin: 0 0 5px 0;
+				a {
+					display: block;
+					color: $base-text;
+					border-left: 3px solid $logo-color;
+					padding: 2px 10px;
+				}
+			}
+			.description {
+				padding: 8px 10px;
+			}
+			.footer {
+				background-color: $footer-bg;
+				font-size: 0.85rem;
+				padding: 8px 10px;
+				li {
+					display: inline-block;
+					margin-right: 1rem;
+					.material-icons {
+						position: relative;
+						top: 3px;
+						color: $logo-color;
+						font-size: 1.2rem;
+						line-height: 1rem;
+						padding-right: 0.2rem;
+					}
+				}
+			}
+		}
+	}
+}

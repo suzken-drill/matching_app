@@ -1,0 +1,30 @@
+%h1 検索結果
+
+.condition
+  .keyword= "キーワード：#{@keyword}"
+  .category
+    カテゴリー：
+    = @category.blank? ? "なし" : @category.name
+  .count= "　検索結果：#{@shops.count}件"
+
+- if @shops.count > 0
+  .shops
+    %ul
+      - @shops.each do |shop|
+        %li.shop
+          .name= link_to shop.name, shop_path(id: shop.id)
+          .description= shop.description.truncate(100, omission: '...')
+          .footer
+            %span.like= "いいね#{shop.shop_likes.count}件"
+            %span.review= "口コミ#{shop.shop_reviews.count}件"
+            %span.point= "評価+#{shop.eval_point}P"
+            %span.photo= "写真#{shop.total_photo_count}件"
+- else
+  該当するショップはありませんでした
+
+%br
+= will_paginate @shops, renderer: BootstrapPaginationHelper::LinkRenderer, :previous_label => '&laquo;', :next_label => '&raquo;'
+
+%hr
+
+= render "layouts/back"

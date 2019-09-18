@@ -10,9 +10,159 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require_tree .
+ *= require_directory .
  *= require_self
  */
 
 @import "bootstrap";
 @import "constant";
+
+body {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	font-family: "メイリオ","Meiryo","Hiragino Sans","ヒラギノ角ゴシック","ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","ＭＳ Ｐゴシック","Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 0.92rem;
+	ul {
+		list-style-type: none;
+		padding: 0;
+		margin: 0;
+	}
+	header.header {
+		text-align: left;
+		padding: 0;
+		margin: 0;
+		#logo {
+			display: table-cell;
+			width: 220px;
+			margin-right: 20px;
+			a {
+				font-family: 'Paytone One', sans-serif;
+				font-size: 2.5rem;
+				color: $logo-color;
+			}
+			a:hover {
+				color: $logo-color;
+				text-decoration: none;
+			}
+		}
+		ul#nav {
+			display: table-cell;
+			text-align: right;
+			vertical-align: top;
+			width: 890px;
+			line-height: 3rem;
+			padding: 0;
+			margin: 0;
+			li {
+				display: inline-block;
+				font-size: 0.85rem;
+				padding: 0;
+				margin: 0;
+			}
+			li:before {
+				content: "｜";
+				color: $header-border;
+			}
+		}
+	}
+	.search-form {
+		background-color: $logo-color;
+		padding: 5px 0;
+		margin-bottom: 30px;
+		.form-group {
+			display: inline-block;
+			width: 800px;
+			margin: 0 auto;
+			input#keyword {
+				display: inline-block;
+				width: 400px;
+			}
+			select#category {
+				display: inline-block;
+				width: auto;
+			}
+			button.btn {
+				height: 38px;
+				i {
+					height: 24px;
+					width: 24px;
+				}
+			}
+		}
+	}
+	footer.footer {
+		background-color: #faf8f5;
+		padding: 30px;
+		margin: auto 0 0 0;
+		.footer_nav {
+			border-bottom: 1px solid $lightgray;
+			padding: 0 0 15px 0;
+			margin: 0 0 15px 0;
+			ul.breadcrumb {
+				background-color: transparent;
+				font-size: 0.85rem;
+				padding: 0;
+				margin: 0;
+			}
+		}
+		.logo {
+			display: table-cell;
+			width: 220px;
+			margin-right: 20px;
+			a {
+				font-family: 'Paytone One', sans-serif;
+				font-size: 1.8rem;
+				line-height: 1.2rem;
+				color: $logo-color;
+			}
+			a:hover {
+				text-decoration: none;
+			}
+		}
+		.copyright {
+			display: table-cell;
+			width: 900px;
+			text-align: right;
+			font-size: 0.85rem;
+			line-height: 0.85rem;
+			vertical-align: top;
+			color: $gray;
+			padding: 0;
+			margin: 0;
+		}
+	}
+	.contents {
+		padding: 0;
+		margin: 0 0 60px 0;
+		h1 {
+			font-size: 1.8rem;
+			color: #13131e;
+			font-weight: 400;
+			line-height: 1;
+			padding: 0;
+			margin: 0 0 15px 0;
+		}
+		h2 {
+			font-size: 1.6rem;
+			color: #13131e;
+			font-weight: 400;
+			line-height: 1;
+			padding: 0;
+			margin: 0 0 15px 0;
+		}
+		.back-btn {
+			a {
+				color: $gray;
+				border: 1px solid $gray;
+				border-radius: 5px;
+				padding: 5px 15px;
+			}
+			a:hover {
+				color: $white;
+				background-color: $gray;
+				text-decoration: none;
+			}
+		}
+	}
+}

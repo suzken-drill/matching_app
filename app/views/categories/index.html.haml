@@ -1,0 +1,54 @@
+.row
+  .col-3
+    = render "sidebar", categories: @parent_cat
+
+  .col-9
+    -# カテゴリーの説明
+    - if @category.present?
+      %figure.highlight
+        .cat_name= @category.name
+        .cat_description= @category.description
+
+    -# サブカテゴリー一覧
+    %sction
+      - if @category.present? && @category.is_original?
+        .categories.content
+          %ul
+            - @category.sub_categories.order(order: :desc).each do |category|
+              %li.card
+                .card-header
+                  .name
+                    = link_to category.name + " (#{category.shops.count})", categories_slug2_path(slug1: @category.slug, slug2: category.slug)
+                .card-body
+                  .description= category.description.truncate(100, omission: '...')
+
+    -# 店舗一覧
+    - if @category.shops.count > 0
+      %h2= "#{@category.name}の店舗一覧"
+      %section
+        %ul.shops
+          - @category.shops.each do |shop|
+            %li.shop
+              .name= link_to shop.name, shop_path(id: shop.id), target: :_blank
+              .description= shop.description.truncate(100, omission: '...')
+              .footer
+                %ul
+                  %li.like<>
+                    %i.material-icons thumb_up
+                    = "#{shop.shop_likes.count}件"
+                  %li.review<>
+                    %i.material-icons rate_review
+                    = "#{shop.shop_reviews.count}件"
+                  %li.point<>
+                    %i.material-icons star
+                    = "+#{shop.eval_point}P"
+                  %li.photo<>
+                    %i.material-icons photo
+                    = "#{shop.total_photo_count}件"
+    - else
+      - if @category.is_sub?
+        %p このカテゴリーにはショップが登録されていません
+
+    %hr
+
+    = render "layouts/back"

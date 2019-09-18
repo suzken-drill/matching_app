@@ -1,0 +1,16 @@
+// Place all the styles related to the OwnerShops controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+@import "constant";
+
+.payment_fields {
+	.form-check {
+		display: inline-block;
+		padding: 0;
+		margin: 0 20px 10px 0;
+		label {
+			text-indent: 1.2rem;
+		}
+	}
+}

@@ -1,0 +1,37 @@
+.shop_review_header
+  %h2= @shop.name
+
+- if @shop_review.errors.any?
+  #error_explanation
+    %ul
+      - @shop_review.errors.full_messages.each do |message|
+        %li= message
+
+.shop_review_body
+  = form_for @shop_review, url: shop_reviews_path do |f|
+    .review_field
+      = f.hidden_field :shop_id, value: @shop.id
+      .form-group
+        = f.text_field :item_name, placeholder: "購入商品名", class: "form-control"
+      .form-group
+        = f.text_area :description, placeholder: "口コミ本文", class: "form-control"
+      .from-group
+        = f.label :purchased_at, "購入日"
+        = f.date_select :purchased_at, {}
+    .eval_fields
+      %h3 評価
+      - i = 0
+      = f.fields_for :shop_review_evals do |t|
+        .form-group
+          = t.label :eval_key, ShopReviewEval::EVAL_KEY_SET[ShopReviewEval::EVAL_KEYS[i].to_sym]
+          = t.hidden_field :eval_key
+          = t.select :eval_value, ShopReviewEval::EVAL_VALUE_SELECT, { include_blank: true }, { class: "form-control" }
+          - i += 1
+    .photo_fields
+      %h3 写真
+      .photo_field
+        = f.fields_for :shop_review_photos do |u|
+          = render 'shop_review_photo_fields', f: u
+      = link_to_add_association '写真を追加', f, :shop_review_photos, class: 'btn btn-primary', data: {association_insertion_node: '.photo_fields .photo_field', association_insertion_method: 'append'}
+    .send_btn
+      = f.submit "登　録", class: "btn btn-primary"

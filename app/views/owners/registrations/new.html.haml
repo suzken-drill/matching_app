@@ -1,0 +1,46 @@
+%h2 オーナー会員登録
+
+= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+  = render "owners/shared/error_messages", resource: resource
+
+  .form-group
+    = f.label :email, "メールアドレス"
+    = f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control"
+  .form-group
+    = f.label :owner_name, "事業者名"
+    = f.text_field :owner_name, class: "form-control"
+  .form-group
+    = f.label :address, "住 所"
+    = f.text_field :address, class: "form-control"
+  .form-group
+    = f.label :owner_tel, "電話番号"
+    = f.telephone_field :owner_tel, class: "form-control"
+  .form-group
+    = f.label :owner_introduction, "備　考"
+    = f.text_area :owner_introduction, rows: "5", class: "form-control"
+  .form-group
+    = f.label :biz_hour, "営業時間"
+    = f.text_field :biz_hour, class: "form-control"
+  .form-group
+    = f.label :delivery, "納　期"
+    = f.text_field :delivery, class: "form-control"
+  .form-group
+    = f.label :support, "サポート体制"
+    = f.text_field :support, class: "form-control"
+  .form-group
+    = f.label :carrier, "運送会社"
+    = f.text_field :carrier, class: "form-control"
+  .form-group
+    = f.label :password, "パスワード"
+    - if @minimum_password_length
+      %small= "(#{@minimum_password_length} 文字以上)"
+    = f.password_field :password, autocomplete: "new-password", class: "form-control"
+  .form-group
+    = f.label :password_confirmation, "確認用パスワード"
+    = f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control"
+  .actions.send_btn
+    = f.submit "登　録", class: "btn btn-primary"
+
+%hr
+
+= render "owners/shared/links"

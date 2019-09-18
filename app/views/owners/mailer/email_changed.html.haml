@@ -1,0 +1,10 @@
+%p メールアドレスが変更されました
+
+- if @resource.try(:unconfirmed_email?)
+  %p
+    メールアドレスが変更されました：
+    = @resource.unconfirmed_email
+- else
+  %p
+    メールアドレスが変更されました：
+    = @resource.email

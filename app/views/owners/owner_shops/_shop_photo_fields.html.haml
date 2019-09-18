@@ -1,0 +1,5 @@
+.nested-fields
+  .form-group
+    = f.file_field :filename, class: 'form-control'
+    = f.select :photo_type, ShopPhoto::PHOTO_TYPE_VALUE_SELECT, { include_blank: true }, class: 'form-control'
+    = link_to_remove_association '写真の削除', f

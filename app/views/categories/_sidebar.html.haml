@@ -1,0 +1,6 @@
+.side-nav.card
+  .card-header
+    %h4 カテゴリー
+  %ul.cat_list.list-group.list-group-flush
+    - categories.each do |category|
+      %li.list-group-item= link_to category.name, categories_slug1_path(slug1: category.slug)

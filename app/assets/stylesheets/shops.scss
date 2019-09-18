@@ -1,0 +1,176 @@
+// Place all the styles related to the shops controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+@import "constant";
+
+body.shops {
+	.breadcrumb {
+		background-color: transparent;
+		font-size: 0.75rem;
+		padding: 0;
+		margin: 0 0 20px 0;
+		li {
+
+		}
+		li:before {
+			content: ">";
+			color: $logo-color;
+			padding: 0 5px;
+		}
+		li:first-child:before {
+			content: "";
+			padding: 0;
+		}
+	}
+	.sns_btn {
+		margin: 0 auto 40px auto;
+		a {
+			display: inline;
+			position: relative;
+			font-family: Arial;
+			font-size: 14px;
+			font-weight: bold;
+			text-align: center;
+				text-decoration: none;
+			color: #FFF;
+			border-radius: 5px;
+			padding: 14px 80px;
+		}
+		.facebook {
+			background-color: #2e4a88;
+			box-shadow: 0 4px 0 #1B3D82;
+			text-shadow: 0 -1px -1px #1B3D82;
+		}
+		.facebook:hover {
+			background-color: #354F84;
+			color: #FFF;
+		}
+		.facebook:active {
+			top: 2px;
+			box-shadow: 0 2px 0 #1B3D82;
+		}
+		.twitter {
+			background-color: #008DDE;
+			box-shadow: 0 4px 0 #0078BD;
+		}
+		.twitter:active {
+			top: 2px;
+			box-shadow: 0 2px 0 #0078BD;
+		}
+		.twitter:hover {
+			background-color: #1397D8;
+			color: #FFF;
+		}
+		.line {
+			background-color: #35de00;
+			box-shadow: 0 4px 0 #2dc715;
+		}
+		.line:active {
+			top: 2px;
+			box-shadow: 0 2px 0 #2dc715;
+		}
+		.line:hover {
+			background-color: #35de00ed;
+			color: #FFF;
+		}
+	}
+	.head {
+		border-top: 3px solid $khaki;
+		border-bottom: 1px solid $khaki;
+		background-color: $footer-bg;
+		padding: 14px 10px 10px 10px;
+		margin: 0 0 15px 0;
+		h1 {
+			font-size: 2.0rem;
+			font-weight: 600;
+			padding: 0;
+			margin: 0 0 5px 0;
+		}
+		.url {
+			position: relative;
+			top: -7px;
+			font-size: 0.85rem;
+			line-height: 0.5rem;
+			border-bottom: 1px solid $lightgray;
+			padding-bottom: 15px;
+			margin-bottom: 5px;
+			.material-icons {
+				position: relative;
+				top: 7px;
+			}
+		}
+		.meta {
+			div {
+				display: inline-block;
+				margin-right: 1rem;
+				.material-icons {
+					position: relative;
+					top: 3px;
+					color: $logo-color;
+					font-size: 1.2rem;
+					line-height: 1rem;
+					padding-right: 0.2rem;
+				}
+			}
+		}
+	}
+	.body {
+		.owner_images {
+			background-color: $footer-bg;
+			padding: 0;
+			margin: 0 0 30px 0;
+			#carouselExampleFade {
+				width: 660px;
+				height: 370px;
+				padding: 0;
+				margin: 0 auto;
+			}
+		}
+		h2 {
+			font-size: 1.6rem;
+			font-weight: 600;
+			padding: 0;
+			margin: 0 0 5px 0;
+		}
+		p.description {
+			font-size: 1.0rem;
+			line-height: 1.4rem;
+		} 
+	}
+	h3 {
+		font-size: 1.2rem;
+		font-weight: 600;
+		line-height: 1.2rem;
+		border-left: 5px solid $khaki;
+		padding: 5px 0 2px 8px;
+		margin: 0 0 10px 0;
+	}
+	table.table {
+		th {
+			background-color: $footer-bg;
+		}
+	}
+	.sidebar {
+		h4 {
+			position: relative;
+			font-size: 1rem;
+			font-weight: 600;
+			line-height: 1rem;
+			background-color: $footer-bg;
+			padding: 8px 12px 6px 26px;
+			margin: 0 0 5px 0;
+			i.material-icons {
+				color: $khaki;
+				position: absolute;
+				top: -6px;
+				left: 2px;
+			}
+		}
+		.side-content {
+			border: 1px solid rgba(0,0,0,0.125);
+			padding: 10px;
+			margin: 0 0 20px 0;
+		}
+	}
+}

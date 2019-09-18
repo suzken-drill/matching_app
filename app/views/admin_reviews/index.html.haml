@@ -1,0 +1,19 @@
+%h1 商品レビュー記事一覧
+
+- if @admin_reviews.present?
+  .admin_reviews
+    %ul
+      - @admin_reviews.each do |admin_review|
+        %li
+          .title= link_to admin_review.title, post_path(id: admin_post.id)
+          .excerpt= admin_review.excerpt
+          .created_at= "公開日時:#{l(admin_review.created_at, format: :long)}"
+- else
+  ショップ記事はまだ登録されていません
+
+%br
+= will_paginate @admin_reviews, renderer: BootstrapPaginationHelper::LinkRenderer, :previous_label => '&laquo;', :next_label => '&raquo;'
+
+%hr
+
+= render "layouts/back"
