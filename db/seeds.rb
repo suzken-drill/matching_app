@@ -47,7 +47,7 @@ Category.create!([
   {name: "カジュアル", parent_id: 1, order: 0, description: "カジュアルなファッションなど", slug: "casual"},
   {name: "ナチュラル", parent_id: 1, order: 0, description: "ナチュラル系のファッションなど", slug: "natural"},
   {name: "スウィート", parent_id: 1, order: 0, description: "スウィート系の甘くて可愛いファッションなど", slug: "sweet"},
-]) if Rails.env.development?
+])
 
 Payment.create!([
   {name: "銀行振込", order: 0},
