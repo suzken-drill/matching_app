@@ -64,7 +64,7 @@ gem 'haml-rails'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'bootstrap', '>= 4.3.1'
-gem 'devise'
+gem 'devise', ">= 4.7.1"
 gem 'activeadmin'
 gem 'carrierwave'
 gem 'rmagick'
