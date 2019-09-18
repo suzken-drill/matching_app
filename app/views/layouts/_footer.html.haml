@@ -1,25 +1,20 @@
 %footer.footer
   .container
-    %ul.breadcrumb
-      %li.breadcrumb-item= link_to "トップページ", root_path
-      %li.breadcrumb-item= link_to "運営者について", static_page_owner_path
-      %li.breadcrumb-item= link_to "このMySHOPについて", static_page_about_path
-      %li.breadcrumb-item= link_to "ご利用ガイド", static_page_rule_path
-      %li.breadcrumb-item= link_to "ヘルプ", static_page_help_path
-      %li.breadcrumb-item= link_to "一般のお問い合わせ", contacts_path
-      %li.breadcrumb-item= link_to "店舗様のお問い合わせ", shop_contacts_path
-      - if user_signed_in?
-        %li.breadcrumb-item= link_to "マイページ", users_show_user_path(id: current_user.id)
-        %li.breadcrumb-item= link_to 'プロフィール変更', edit_user_registration_path
-        %li.breadcrumb-item= link_to "ログアウト", destroy_user_session_path, method: :delete
-      - else
-        %li.breadcrumb-item= link_to "一般会員登録", new_user_registration_path
-        %li.breadcrumb-item= link_to "ログイン", new_user_session_path
-      - if owner_signed_in?
-        %li.breadcrumb-item= link_to "店舗マイページ", owners_show_owner_path(id: current_owner["id"])
-        %li.breadcrumb-item= link_to '店舗プロフィール変更', edit_owner_registration_path
-        %li.breadcrumb-item= link_to "店舗ログアウト", destroy_owner_session_path, method: :delete
-      - else
-        %li.breadcrumb-item= link_to "店舗会員登録", new_owner_registration_path
-        %li.breadcrumb-item= link_to "店舗ログイン", new_owner_session_path
+    .footer_nav
+      %ul.breadcrumb
+        %li.breadcrumb-item= link_to "運営者について", static_page_manage_path
+        %li.breadcrumb-item= link_to "ご利用ガイド", static_page_rule_path
+        %li.breadcrumb-item= link_to "ヘルプ", static_page_help_path
+        %li.breadcrumb-item= link_to "一般お問い合わせ", contacts_path
+        %li.breadcrumb-item= link_to "店舗お問い合わせ", shop_contacts_path
+      %ul.breadcrumb
+        - if owner_signed_in?
+          %li.breadcrumb-item= link_to "オーナー会員マイページ", owners_show_owner_path(id: current_owner["id"])
+          %li.breadcrumb-item= link_to 'オーナー会員プロフィール変更', edit_owner_registration_path
+          %li.breadcrumb-item= link_to 'ショップ管理', owners_owner_shops_path
+          %li.breadcrumb-item= link_to "オーナー会員ログアウト", destroy_owner_session_path, method: :delete
+        - else
+          %li.breadcrumb-item= link_to "オーナー会員登録", new_owner_registration_path
+          %li.breadcrumb-item= link_to "オーナー会員ログイン", new_owner_session_path
+    .logo= link_to "SHOPPY!?", root_path
     %p.copyright Copyright 2019- 株式会社ドリル All Rights Reserved.

@@ -1,8 +1,76 @@
-- if current_user.nick_name.present?
-  %h2= current_user.nick_name + "さん"
-- else
-  %p
-    = link_to "プロフィールの変更", edit_user_registration_path
-    よりニックネームを登録してください
+- if user_signed_in?
+  - if @user == current_user
+    - if current_user.nick_name.blank?
+      %p
+        = link_to "プロフィールの変更", edit_user_registration_path
+        よりニックネームを登録してください
+  - else
+    = hidden_field_tag :show_user_id, @user.id
+    - if current_user.following?(@user)
+      .follow_btn.already.btn.btn-primary フォロー中
+    - else
+      .follow_btn.btn.btn-light フォローする
 
-%p マイページの本文
+-# 名前
+%h1= @user.nick_name + "さん"
+
+-# 各種活動状況
+%h2 活動状況
+.activities
+  .review<>
+    レビュー数
+    .data
+      = @user.shop_reviews.count
+      件
+  .photo<>
+    写真
+    .data
+      = @user.total_photo_count
+      枚
+  .like<>
+    いいねしたショップ
+    .data
+      = @user.shop_likes.count
+      件
+  .following<>
+    フォロー中
+    .data
+      = @user.following.count
+      人
+  .follower<>
+    フォロワー数
+    .data
+      = @user.followers.count
+      人
+
+-# 自己紹介
+%h2 自己紹介
+%p.introduction= @user.introduction.gsub(/\R/, "<br>").html_safe
+
+-# 口コミ一覧
+- if @shop_reviews.count > 0
+  %h2 口コミ
+  .reviews
+    %ul
+      - @shop_reviews.each do |shop_review|
+        %li.review
+          .review_header
+            .name= link_to shop_review.shop.name, shop_path(id: shop_review.shop.id)
+            .point= "評価+#{shop_review.shop_review_evals.sum(:eval_value)}P"
+          .description
+            .item_name= shop_review.item_name
+            %p= shop_review.description.truncate(255, omission: '...')
+            - if shop_review.description.size > 255
+              .more= link_to "続きを読む", shop_review_path(id: shop_review.id)
+          %ul.photos
+            - shop_review.shop_review_photos.each do |photo|
+              %li.photo= image_tag photo.filename.thumb.url, alt: photo.comment.truncate(30)
+          .footer
+            .like= "いいね#{shop_review.shop_review_likes.count}件"
+            .created_at= "投稿日時：#{l(shop_review.created_at, format: :long)}"
+
+  %br
+  = will_paginate @shop_reviews, renderer: BootstrapPaginationHelper::LinkRenderer, :previous_label => '&laquo;', :next_label => '&raquo;'
+
+
+

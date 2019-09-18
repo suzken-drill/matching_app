@@ -1,5 +1,8 @@
-= form_with url: searchs_path, local: true, method: "get" do |f|
-  .form-group
-    = f.text_field :keyword, placeholder: "キーワード", class: "form-control"
-    = f.grouped_collection_select(:category, Category.originals, :sub_categories, :name, :id, :name, prompt: "選択してください", class: "form-control")
-    = f.submit "検索", class: "btn btn-primary"
+.search-form
+  .container
+    = form_with url: searchs_path, local: true, method: "get" do |f|
+      .form-group
+        = f.text_field :keyword, placeholder: "キーワード", class: "form-control"
+        = f.grouped_collection_select(:category, Category.originals, :sub_categories, :name, :id, :name, { prompt: "選択してください" }, { class: "form-control" })
+        = button_tag type: 'submit', class: "btn btn-light" do
+          %i.material-icons search

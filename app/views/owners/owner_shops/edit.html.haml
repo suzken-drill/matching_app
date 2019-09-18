@@ -1,0 +1,11 @@
+%h1 ショップの更新
+%p
+  店舗情報の更新はこちらのフォームよりご依頼ください。
+  %br
+  スタッフが確認後、更新された内容で公開されます。
+
+= render "form", { shop: @shop, type: :update }
+
+%hr
+
+= render "layouts/back"

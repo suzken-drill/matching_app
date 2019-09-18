@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_04_124744) do
+ActiveRecord::Schema.define(version: 2019_09_17_081810) do
 
   create_table "active_admin_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "namespace"
@@ -54,12 +54,13 @@ ActiveRecord::Schema.define(version: 2019_09_04_124744) do
 
   create_table "categories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
-    t.integer "parent_id", default: 0
+    t.bigint "parent_id", default: 0
     t.integer "order", default: 0
     t.text "description"
     t.string "slug", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["parent_id"], name: "index_categories_on_parent_id"
     t.index ["slug"], name: "index_categories_on_slug"
   end
 
@@ -105,10 +106,22 @@ ActiveRecord::Schema.define(version: 2019_09_04_124744) do
     t.string "owner_name"
     t.text "owner_introduction"
     t.string "owner_tel"
+    t.string "address", null: false
+    t.string "biz_hour", null: false
+    t.string "delivery", null: false
+    t.string "support", null: false
+    t.string "carrier", null: false
     t.index ["confirmation_token"], name: "index_owners_on_confirmation_token", unique: true
     t.index ["email"], name: "index_owners_on_email", unique: true
     t.index ["reset_password_token"], name: "index_owners_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_owners_on_unlock_token", unique: true
+  end
+
+  create_table "payments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "order", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "shop_contacts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -129,6 +142,24 @@ ActiveRecord::Schema.define(version: 2019_09_04_124744) do
     t.index ["shop_id", "user_id"], name: "index_shop_likes_on_shop_id_and_user_id", unique: true
     t.index ["shop_id"], name: "index_shop_likes_on_shop_id"
     t.index ["user_id"], name: "index_shop_likes_on_user_id"
+  end
+
+  create_table "shop_payments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "shop_id"
+    t.bigint "payment_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["payment_id"], name: "index_shop_payments_on_payment_id"
+    t.index ["shop_id"], name: "index_shop_payments_on_shop_id"
+  end
+
+  create_table "shop_photos", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "shop_id"
+    t.string "filename", null: false
+    t.string "photo_type", default: "sub", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["shop_id"], name: "index_shop_photos_on_shop_id"
   end
 
   create_table "shop_review_evals", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -175,11 +206,25 @@ ActiveRecord::Schema.define(version: 2019_09_04_124744) do
     t.bigint "owner_id"
     t.string "name", null: false
     t.string "url", null: false
+    t.string "headline", null: false
     t.text "description", null: false
+    t.string "twitter", null: false
+    t.string "blog", null: false
+    t.string "youtube", null: false
+    t.string "saleinfo", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "headline", null: false
     t.index ["owner_id"], name: "index_shops_on_owner_id"
+  end
+
+  create_table "user_relationships", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "follower_id"
+    t.bigint "followed_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["followed_id"], name: "index_user_relationships_on_followed_id"
+    t.index ["follower_id", "followed_id"], name: "index_user_relationships_on_follower_id_and_followed_id", unique: true
+    t.index ["follower_id"], name: "index_user_relationships_on_follower_id"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -216,6 +261,9 @@ ActiveRecord::Schema.define(version: 2019_09_04_124744) do
   add_foreign_key "category_relationships", "shops"
   add_foreign_key "shop_likes", "shops"
   add_foreign_key "shop_likes", "users"
+  add_foreign_key "shop_payments", "payments"
+  add_foreign_key "shop_payments", "shops"
+  add_foreign_key "shop_photos", "shops"
   add_foreign_key "shop_review_evals", "shop_reviews"
   add_foreign_key "shop_review_likes", "shop_reviews"
   add_foreign_key "shop_review_likes", "users"
@@ -223,4 +271,6 @@ ActiveRecord::Schema.define(version: 2019_09_04_124744) do
   add_foreign_key "shop_reviews", "shops"
   add_foreign_key "shop_reviews", "users"
   add_foreign_key "shops", "owners"
+  add_foreign_key "user_relationships", "users", column: "followed_id"
+  add_foreign_key "user_relationships", "users", column: "follower_id"
 end

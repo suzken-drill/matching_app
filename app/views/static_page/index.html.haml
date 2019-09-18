@@ -1,38 +1,89 @@
-%h1 トップページ
-%p トップページの本文です
+.jumbotron
+  %h1.display-4 SHOPPY!?へようこそ
+  %p.lead SHOPPY!?はあなたのネット通販をもっと幸せする口コミサービスです
 
-%h2 カテゴリー一覧
-.categories
+%h2
+  カテゴリー一覧
+  = " (#{@categories.count})"
+.categories.content
   %ul
     - @categories.each do |category|
-      %li
-        .name= link_to category.name, categories_slug1_path(slug1: category.slug)
-        .description= category.description.truncate(100, omission: '...')
+      %li.card
+        .card-header
+          .name
+            = link_to category.name + " (#{category.sub_categories_shop_count})", categories_slug1_path(slug1: category.slug)
+        .card-body
+          .description= category.description.truncate(100, omission: '...')
 
-%h2 新着ショップ特集記事
-.admin_posts
-  - if @admin_posts.count > 0
-    %ul
-      - @admin_posts.each do |admin_post|
-        %li
-          .title= link_to admin_post.title, post_path(id: admin_post.id)
-          .excerpt= admin_post.excerpt
-          .created_at= "投稿日時:#{l(admin_post.created_at, format: :long)}"
-    - if @admin_posts.count > AdminPost::INDEX_POST_NUM
-      = link_to "ショップ特集記事一覧へ", posts_path
-  - else
-    %p 新着ショップ特集記事はまだ登録されていません
+%section
+  %h2 新着ショップ特集記事
+  .admin_posts.content
+    - if @admin_posts.count > 0
+      %ul
+        - @admin_posts.each do |admin_post|
+          %li
+            .card
+              = image_tag "sample.jpg", class: "card-img-top", alt: "sample"
+              .card-body
+                .title= link_to admin_post.title, post_path(id: admin_post.id)
+                .excerpt= admin_post.excerpt
+              .card-footer
+                .created_at= "投稿日時:#{l(admin_post.created_at, format: :long)}"
+      - if @admin_posts.count > AdminPost::INDEX_POST_NUM
+        = link_to "ショップ特集記事一覧へ", posts_path
+    - else
+      %p 新着ショップ特集記事はまだ登録されていません
 
-%h2 新着商品レビュー記事
-.admin_reviews
-  - if@admin_reviews.count > 0
-    %ul
-      - @admin_reviews.each do |admin_review|
-        %li
-          .title= link_to admin_review.title, review_path(id: admin_review.id)
-          .excerpt= admin_review.excerpt
-          .created_at= "投稿日時:#{l(admin_review.created_at, format: :long)}"
-    - if @admin_reviews.count > AdminPost::INDEX_REVIEW_NUM
-      = link_to "商品レビュー記事一覧へ", reviews_path
-  - else
-    %p 新着商品レビュー記事はまだ登録されていません
+%section
+  %h2 新着商品レビュー記事
+  .admin_reviews.content
+    - if@admin_reviews.count > 0
+      %ul
+        - @admin_reviews.each do |admin_review|
+          %li
+            .card
+              = image_tag "sample.jpg", class: "card-img-top", alt: "sample"
+              .card-body
+                .title= link_to admin_review.title, review_path(id: admin_review.id)
+                .excerpt= admin_review.excerpt
+              .card-footer
+                .created_at= "投稿日時:#{l(admin_review.created_at, format: :long)}"
+      - if @admin_reviews.count > AdminPost::INDEX_REVIEW_NUM
+        = link_to "商品レビュー記事一覧へ", reviews_path
+    - else
+      %p 新着商品レビュー記事はまだ登録されていません
+
+%section
+  %h2 新着口コミ
+  .shop_reviews.content
+    - if@shop_reviews.count > 0
+      %ul
+        - @shop_reviews.each do |shop_review|
+          %li
+            .card
+              - if shop_review.shop_review_photos.count > 0
+                = image_tag shop_review.shop_review_photos.first.filename.thumb.url, class: "card-img-top", alt: "sample"
+              - else
+                = image_tag "sample.jpg", class: "card-img-top", alt: "sample"
+              .card-body
+                .review-header<>
+                  .name= link_to shop_review.shop.name, shop_path(id: shop_review.shop.id)
+                  .badge.badge-success.review= "口コミ#{shop_review.shop.shop_reviews.count}件"
+                  .badge.badge-success.like= "いいね#{shop_review.shop_review_likes.count}件"
+                  .badge.badge-success.point= "評価+#{shop_review.shop_review_evals.sum(:eval_value)}P"
+                .review-body
+                  .item_name= shop_review.item_name
+                  %p= shop_review.description.truncate(255, omission: '...')
+                  - if shop_review.description.size > 255
+                    .more= link_to "続きを読む", shop_review_path(id: shop_review.id)
+                    -# shop_review.shop_review_photos.each do |photo|
+                      %li.photo=# image_tag photo.filename.thumb.url, alt: photo.comment.truncate(10)
+              .card-footer
+                .created_at= "投稿日時：#{l(shop_review.created_at, format: :long)}"
+                .post_user<>
+                  投稿者：
+                  = link_to shop_review.user.nick_name, users_show_user_path(id: shop_review.user.id)
+      - if @shop_reviews.count > ShopReview::INDEX_REVIEW_NUM
+        = link_to "口コミ一覧へ", shop_reviews_path
+    - else
+      %p 新着商品レビュー記事はまだ登録されていません

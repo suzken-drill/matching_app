@@ -1,0 +1,28 @@
+%h1 オーナーショップ一覧
+%br
+- if @shops.present?
+  %table.table
+    %thead.thead-light
+      %tr
+        %th 店舗名
+        %th URL
+        %th 見出し
+        %th 説明
+        %th 更新日時
+        %th
+        %th
+        %th
+    - @shops.each do |shop|
+      %tr
+        %td= shop.name
+        %td= shop.url.truncate(20, omission: '...')
+        %td= shop.headline.truncate(15, omission: '...')
+        %td= shop.description.truncate(15, omission: '...')
+        %td= l(shop.updated_at, format: :date)
+        %td= link_to "表示", shop_path(shop), target: :_blank
+        %td= link_to "修正", edit_owners_owner_shop_path(shop)
+        %td= link_to "削除", owners_owner_shop_path(shop), method: :delete, data: { confirm: I18n.t(:are_you_sure, scope: :message) }
+- else
+  %p ショップは登録されていません
+
+= link_to "ショップの追加", new_owners_owner_shop_path, class: "btn btn-primary"

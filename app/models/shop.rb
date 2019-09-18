@@ -2,17 +2,27 @@ class Shop < ApplicationRecord
   belongs_to :owner
   has_many :shop_reviews
   has_many :shop_likes
-  has_one :category_relationship
+  has_one :category_relationship, dependent: :destroy
   has_one :category, through: :category_relationship
+  has_many :shop_photos, dependent: :destroy
+  has_many :shop_payments, dependent: :destroy
+  has_many :payment, through: :shop_payments
+
+  accepts_nested_attributes_for :category_relationship
+  accepts_nested_attributes_for :shop_photos, allow_destroy: true, limit: 10
+  accepts_nested_attributes_for :shop_payments, allow_destroy: true
 
   # constant
   SHOW_PHOTO_NUM = 8
   SHOW_REVIEW_NUM = 5
+  REGISTRABLE_ATTRIBUTES = %i(name url description headline twitter blog youtube saleinfo)
 
   validates :name, presence: {message: I18n.t(:name_blank_error, scope: [:message, :shop])}
   validates :url, presence: {message: I18n.t(:url_blank_error, scope: [:message, :shop])}, format: {with:  /http(s|):\/\/[\w\-\_\.\!\*\'\)\(]+/, message: I18n.t(:url_format_error, scope: [:message, :shop])}
   validates :description, presence: {message: I18n.t(:description_blank_error, scope: [:message, :shop])}
   validates :headline, presence: {message: I18n.t(:headline_blank_error, scope: [:message, :shop])}, length: {maximum: 255, message: I18n.t(:headline_length_error, scope: [:message, :shop])}
+
+  scope :shop_set, -> { includes(:owner, :category, shop_reviews: [:shop_review_evals, :shop_review_photos]) }
 
   def self.shop_sort(category, order_type)
   	#.where(id: category.category_relationships.pluck(:id))
@@ -27,7 +37,7 @@ class Shop < ApplicationRecord
 
   end
   def eval_point
-    self.shop_reviews.count > 0 ? ShopReviewEval.where(shop_review_id: self.shop_reviews.pluck(:id), value: 1).count : 0
+    self.shop_reviews.count > 0 ? ShopReviewEval.where(shop_review_id: self.shop_reviews.pluck(:id), eval_value: 1).count : 0
   end
   def total_photo_count
     self.shop_reviews.count > 0 ? ShopReviewPhoto.where(shop_review_id: self.shop_reviews.pluck(:id)).count : 0

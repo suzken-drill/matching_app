@@ -6,20 +6,18 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <link href="https://fonts.googleapis.com/css?family=Luckiest+Guy&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Paytone+One&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= yield :header_script %>
   </head>
 
-  <body>
+  <body class="<%= controller_name %>">
     <%= render "layouts/header" %>
 
-    <div class="container">
-      <%= render "layouts/search" %>
-    </div>
+    <%= render "layouts/search" %>
 
-    <div class="container">
+    <div class="container messages">
       <% if flash[:notice].present? %>
         <div class="alert alert-success">
           <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -29,13 +27,13 @@
       <% if flash[:error].present? %>
         <div class="alert alert-danger">
           <button type="button" class="close" data-dismiss="alert">&times;</button>
-          <%= alert.html_safe %>
+          <%= error.html_safe %>
         </div>
       <% end %>
     </div>
 
-    <div class="contents">
-      <div class="container">
+    <div class="container">
+      <div class="contents">
         <%= yield %>
       </div>
     </div>

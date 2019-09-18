@@ -2,6 +2,7 @@
 
 class Owners::SessionsController < Devise::SessionsController
   # before_action :configure_sign_in_params, only: [:create]
+  before_action :not_authenticate_user?, only: [:new]
 
   # GET /resource/sign_in
   # def new

@@ -1,0 +1,59 @@
+- url_option = type == :create ? owners_owner_shops_path : owners_owner_shop_path
+= form_for shop, url: url_option, local: true do |f|
+  = render "owners/shared/error_messages", resource: shop
+
+  %br
+  = f.fields_for :category_relationship do |t|
+    .form-group
+      = t.label :category_id, "カテゴリー"
+      = t.grouped_collection_select(:category_id, Category.originals, :sub_categories, :name, :id, :name, prompt: "選択してください", class: "form-control")
+    .form-group
+      = t.label :order, "並び順"
+      = t.select :order, (0..10).to_a, include_blank: true, class: "form-control"
+  .form-group
+    = f.label :name, "店舗名"
+    = f.text_field :name, class: "form-control"
+  .form-group
+    = f.label :url, "URL"
+    = f.url_field :url, class: "form-control"
+  .form-group
+    = f.label :headline, "見出し"
+    = f.text_field :headline, class: "form-control"
+  .form-group
+    = f.label :description, "説明文"
+    = f.text_area :description, rows: 5, class: "form-control"
+  .form-group
+    = f.label :twitter, "Twitterアカウント"
+    = f.text_field :twitter, class: "form-control"
+  .form-group
+    = f.label :blog, "ブログURL"
+    = f.text_field :blog, class: "form-control"
+  .form-group
+    = f.label :youtube, "YouTubeチャンネル"
+    = f.text_field :youtube, class: "form-control"
+  .form-group
+    = f.label :saleinfo, "お買い得情報"
+    = f.text_area :saleinfo, class: "form-control"
+  .payment_fields
+    %h3
+      決済方法
+      %small ※利用可能な決済方法を全て選択してください
+    .form-group
+      = f.collection_check_boxes(:payment_ids, shop_payment_collection, :id, :name, include_hidden: false) do |payment|
+        .form-check= payment.label(class: "form-check-label") { payment.check_box(class: "form-check-input") + payment.text }
+  .photo_fields
+    %h3
+      店舗掲載写真
+      %small ※メイン画像は1枚まで、追加画像は9枚まで設定可能です。
+    .photo_field
+      = f.fields_for :shop_photos do |u|
+        = render 'shop_photo_fields', f: u
+    = link_to_add_association '写真を追加', f, :shop_photos, class: 'btn btn-primary', data: {association_insertion_node: '.photo_fields .photo_field', association_insertion_method: 'append'}
+
+  .send_btn
+    - if type == :create
+      = f.submit "登　録", class: "btn btn-primary"
+    - elsif type == :update
+      = f.submit "更　新", class: "btn btn-primary"
+    - else
+      %p 登録できません

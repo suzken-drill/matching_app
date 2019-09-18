@@ -1,0 +1,14 @@
+.sidebar
+  %h4
+    %i.material-icons turned_in
+    最新ニュース
+  %p.side-content= shop.saleinfo.gsub(/\R/, "<br>")
+  %h4
+    %i.material-icons turned_in
+    最新Twitter
+  %p
+    = "<a class=\"twitter-timeline\" data-lang=\"ja\" data-width=\"380\" data-height=\"500\" data-chrome=\”noheader\” data-chrome=\”nofooter\” data-theme=\"light\" href=\"https://twitter.com/#{shop.twitter}\">Tweets by #{shop.twitter}</a> <script async src=\"https://platform.twitter.com/widgets.js\" charset=\"utf-8\"></script>".html_safe
+  %h4
+    %i.material-icons turned_in
+    最新ブログ
+  %p.side-content= link_to shop.blog, shop.blog, target: :_blank

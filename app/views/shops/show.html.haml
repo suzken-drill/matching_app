@@ -2,84 +2,124 @@
 
 = render partial: "shops/sns", locals: {shop: @shop}
 
-.head
-  %h1= @shop.name
-  .url= link_to @shop.url, @shop.url, target: :_blank
-  .footer
-    %span.like= "いいね#{@shop.shop_likes.count}件"
-    %span.review= "口コミ#{@shop.shop_reviews.count}件"
-    %span.point= "評価+#{@shop.eval_point}P"
-    %span.photo= "写真#{@shop.total_photo_count}件"
+.row
+  .col-8
+    / メインコンテンツ
+    .head
+      %h1= @shop.name
+      .url
+        %i.material-icons link
+        = link_to @shop.url, @shop.url, target: :_blank
+      .meta
+        .like
+          %i.material-icons thumb_up
+          = "#{@shop.shop_likes.count}件"
+        .review
+          %i.material-icons rate_review
+          = "#{@shop.shop_reviews.count}件"
+        .point
+          %i.material-icons star
+          = "+#{@shop.eval_point}P"
+        .photo
+          %i.material-icons photo
+          = "#{@shop.total_photo_count}件"
+    .body
+      .owner_images
+        #carouselExampleFade.carousel.slide.carousel-fade{ data: { ride: "carousel" } }
+          %ol.carousel-indicators
+            - @shop.shop_photos.count.times do |i|
+              - if i == 0 
+                %li.carouselExampleIndicators{"data-slide-to": i, class: "active" }
+              - else
+                %li.carouselExampleIndicators{"data-slide-to": i }
+          .carousel-inner
+            - main = @shop.shop_photos.find { |photo| photo.photo_type == "main" }
+            - if main.present?
+              .carousel-item.active= image_tag main.filename.url, width: "660", height: "370"
+            - @shop.shop_photos.each do |shop_photo|
+              - if shop_photo.photo_type == "sub"
+                .carousel-item= image_tag shop_photo.filename.url, width: "660", height: "370"
+          = "<a class=\"carousel-control-prev\" href=\"#carouselExampleFade\" role=\"button\" data-slide=\"prev\"><span class=\"carousel-control-prev-icon\" aria-hidden=\"true\"></span><span class=\"sr-only\">Previous</span></a>".html_safe
+          ="<a class=\"carousel-control-next\" href=\"#carouselExampleFade\" role=\"button\" data-slide=\"next\"><span class=\"carousel-control-next-icon\" aria-hidden=\"true\"></span><span class=\"sr-only\">Next</span></a>".html_safe
+      %h2.headline= @shop.headline
+      %p.description= @shop.description
 
-.body
-  .owner_images
-  %h2.headline= @shop.headline
-  %p.description= @shop.description
+    -# 写真一覧
+    %h3 投稿写真
+    - if @shop.total_photo_count > 0
+      %ul.photos
+        - @shop.total_photos.limit(Shop::SHOW_PHOTO_NUM).each do |photo|
+          %li.photo
+            .image= image_tag photo.filename.thumb.url, alt: photo.comment
+            .comment= photo.comment
+    %br
+    -# 口コミ一覧
+    %h3 口コミ
+    .review_header
+      - if user_signed_in?
+        .post_review= link_to "投稿する", new_shop_review_path(id: @shop.id)
+      - if @shop.shop_reviews.count > 0
+        %ul.reviews
+          - @shop.shop_reviews.order(created_at: :desc).limit(Shop::SHOW_REVIEW_NUM).each do |review|
+            %li.review
+              .user
+                %span.name= "投稿者:#{review.user.nick_name}"
+                %span.count= "(#{review.user.shop_reviews.count}件)"
+              %h4.item_name= review.item_name
+              %p.description= review.description
+              .footer
+                .purchased_at= "購入日時:#{l(review.purchased_at, format: :date)}"
+                .total_eval= "評価+#{review.eval_value_count}P"
+                .like= "いいね#{review.shop_review_likes.count}件"
+    %br
+    -# 店舗情報
+    %h3 ショップ情報
+    %table.table.table-bordered
+      %tr
+        %th ショップ名
+        %td.name= @shop.name
+      %tr
+        %th URL
+        %td.url= link_to @shop.url, @shop.url, target: :_blank
+      %tr
+        %th ジャンル
+        %td.category= @shop.category.name
+      %tr
+        %th 支払方法
+        %td.payment
+          - @shop.shop_payments.each do |shop_payment|
+            .payment= shop_payment.payment.name
+      %tr
+        %th 営業日時
+        %td.biz-hour= @shop.owner.biz_hour
+      %tr
+        %th 納期
+        %td.delivery= @shop.owner.delivery
+      %tr
+        %th サポート体制
+        %td.support= @shop.owner.support
+      %tr
+        %th SNS
+        %td.sns
+          .twitter= link_to "Twitter", "https://twitter.com/#{@shop.twitter}", target: :_blank
+          .blog= link_to "ブログ", @shop.blog, target: :_blank
+          .youtube= link_to "YouTube", @shop.youtube, target: :_blank
+      %tr
+        %th 事業者
+        %td.owner-name= @shop.owner.owner_name
+      %tr
+        %th 住所
+        %td.owner-address= @shop.owner.address
+      %tr
+        %th 電話番号
+        %td.owner-tel= @shop.owner.owner_tel
+      %tr
+        %th その他
+        %td.owner-other= @shop.owner.owner_introduction
 
--# 写真一覧
-%h2 投稿写真
-- if @shop.total_photo_count > 0
-  .photos
-    - @shop.total_photos.limit(Shop::SHOW_PHOTO_NUM).each do |photo|
-      .image= image_tag photo.filename, alt: photo.comment
-      .comment= photo.comment
+  .col-4
 
--# 口コミ一覧
-%h2 口コミ
-- if @shop.shop_reviews.count > 0
-  .reviews
-    - @shop.shop_reviews.order(created_at: :desc).limit(Shop::SHOW_REVIEW_NUM).each do |review|
-      .review
-        .user
-          %span.name= "投稿者:#{review.user.nick_name}"
-          %span.count= "(#{review.user.shop_reviews.count}件)"
-        %h3.item_name= review.item_name
-        %p.description= review.description
-        .footer
-          %span.purchased_at= "購入日時:#{l(review.purchased_at, format: :long)}"
-          %span.total_eval= "+#{review.shop_review_evals.sum(:eval_value)}P"
-          %span.like= "いいね#{review.shop_review_likes.count}件"
-
-
--# 店舗情報
-%h2 ショップ情報
-%table
-  %tr
-    %th ショップ名
-    %td= @shop.name
-  %tr
-    %th URL
-    %td= link_to @shop.url, @shop.url, target: :_blank
-  %tr
-    %th ジャンル
-    %td= @shop.category.name
-  %tr
-    %th 支払方法
-    %td= ""
-  %tr
-    %th 営業日時
-    %td= ""
-  %tr
-    %th 納期
-    %td= ""
-  %tr
-    %th サポート体制
-    %td= ""
-  %tr
-    %th SNS
-    %td ブログ Twitter Instagram Facebook
-  %tr
-    %th 事業者
-    %td= @shop.owner.owner_name
-  %tr
-    %th 住所
-    %td= ""
-  %tr
-    %th 電話番号
-    %td= @shop.owner.owner_tel
-  %tr
-    %th その他
-    %td= @shop.owner.owner_introduction
+    = render "sidebar", {shop: @shop}
 
 %hr
 

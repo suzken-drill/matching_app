@@ -1,0 +1,11 @@
+%h1 新しいショップの追加
+%p
+  新店舗の追加はこちらのフォームよりご依頼ください。
+  %br
+  登録後、スタッフが確認の上公開されます。
+
+= render "form", { shop: @shop, type: :create }
+
+%hr
+
+= render "layouts/back"

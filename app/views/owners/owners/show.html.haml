@@ -1,8 +1,34 @@
-- if current_owner.owner_name.present?
-  %h2= current_owner.owner_name + "さん"
-- else
-  %p
-    = link_to "店舗プロフィールの変更", edit_owner_registration_path
-    より店舗情報を登録してください
+%h2= @owner.owner_name
 
-%p マイページの本文
+%h3 オーナー詳細情報
+%table.table.table-bordered
+  %tr
+    %th メールアドレス
+    %td= @owner.email
+  %tr
+    %th 事業者名
+    %td= @owner.owner_name
+  %tr
+    %th 住所
+    %td= @owner.address
+  %tr
+    %th 電話番号
+    %td= @owner.owner_tel
+  %tr
+    %th 備考
+    %td= @owner.owner_introduction.gsub(/\R/, "<br>").html_safe
+  %tr
+    %th 営業時間
+    %td= @owner.biz_hour
+  %tr
+    %th 納期
+    %td= @owner.delivery
+  %tr
+    %th サポート体制
+    %td= @owner.support
+  %tr
+    %th 運送会社
+    %td= @owner.carrier
+
+%hr
+= render "layouts/back"
