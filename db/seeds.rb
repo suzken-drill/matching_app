@@ -5,22 +5,6 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-# user
-=begin
-AdminUser.create!(email: 'admin@wcf-drill.com', password: 'gucchy555', password_confirmation: 'gucchy555') if Rails.env.development?
-owner = Owner.create!(email: 'support@wcf-drill.com', password: 'gucchy555', password_confirmation: 'gucchy555', owner_name: "テストオーナー", owner_introduction: "テスト用オーナーです", owner_tel: "XXX-XXX-XXXX") if Rails.env.development?
-10.times do |i|
-  User.create!(email: "test#{i}@wcf-drill.com", password: "test#{i.to_s + i.to_s + i.to_s}", password_confirmation: "test#{i.to_s + i.to_s + i.to_s}", nick_name: "テスト太郎#{i}", introduction: "テスト用アカウント#{i}です") if Rails.env.development?
-end
-
-# shop
-Shop.create!([
-  {owner_id: owner.id, name: "テストショップ1", url: "https://test1.com/", description: "テストショップ1説明文", headline: "美味しいテスト1用意してます"},
-  {owner_id: owner.id, name: "テストショップ2", url: "https://test2.com/", description: "テストショップ2説明文", headline: "美味しいテスト2用意してます"},
-  {owner_id: owner.id, name: "テストショップ3", url: "https://test3.com/", description: "テストショップ3説明文", headline: "美味しいテスト3用意してます"},
-  {owner_id: owner.id, name: "テストショップ4", url: "https://test4.com/", description: "テストショップ4説明文", headline: "美味しいテスト4用意してます"},
-  {owner_id: owner.id, name: "テストショップ5", url: "https://test5.com/", description: "テストショップ5説明文", headline: "美味しいテスト5用意してます"},
-]) if Rails.env.development?
 
 # original category
 Category.create!([
@@ -65,15 +49,6 @@ Category.create!([
   {name: "スウィート", parent_id: 1, order: 0, description: "スウィート系の甘くて可愛いファッションなど", slug: "sweet"},
 ]) if Rails.env.development?
 
-# category_relationships
-CategoryRelationship.create!([
-  {category_id: 36, shop_id: 1, order: 0},
-  {category_id: 36, shop_id: 2, order: 0},
-  {category_id: 37, shop_id: 3, order: 0},
-  {category_id: 37, shop_id: 4, order: 0},
-  {category_id: 38, shop_id: 5, order: 0},
-]) if Rails.env.development?
-=end
 Payment.create!([
   {name: "銀行振込", order: 0},
   {name: "代金引換", order: 0},
