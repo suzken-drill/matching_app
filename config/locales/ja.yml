@@ -196,9 +196,9 @@ ja:
     select:
       prompt: 選択してください
     submit:
-      create: 登録する
-      submit: 保存する
-      update: 更新する
+      create: 登　録
+      submit: 保　存
+      update: 更　新
   number:
     currency:
       format:
@@ -262,7 +262,7 @@ ja:
     pm: 午後
   message:
     form_error: "入力内容をご確認ください"
-    system_error: "システムエラーが発生しました！登録をやり直してください"
+    system_error: "システムエラーが発生しました！やり直してください"
     send_email_thanks: "お問い合わせを受け付けました"
     user_not_exist_error: "ユーザーは存在していません"
     shop_not_exist_error: "ショップは存在していません"

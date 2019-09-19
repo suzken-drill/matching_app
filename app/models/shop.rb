@@ -58,4 +58,7 @@ class Shop < ApplicationRecord
     end
     return category_array
   end
+  def already_liked?(user)
+    shop_likes.find_by(user_id: user.id).present?
+  end
 end

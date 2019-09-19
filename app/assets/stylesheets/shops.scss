@@ -4,7 +4,7 @@
 
 @import "constant";
 
-body.shops {
+body.shops, body.shop_reviews {
 	.breadcrumb {
 		background-color: transparent;
 		font-size: 0.75rem;
@@ -113,6 +113,28 @@ body.shops {
 					padding-right: 0.2rem;
 				}
 			}
+			.shop_like_btn {
+				position: relative;
+				font-size: 0.75rem;
+				left: 30px;
+				color: $white;
+				cursor: pointer;
+				.material-icons {
+					position: relative;
+					top: 2px;
+					color: $white;
+					font-size: 0.85rem;
+					line-height: 0.85rem;
+					padding-right: 0.1rem;
+				}
+			}
+			.shop_like_btn.btn {
+				padding: 0.2rem 0.5rem;
+			}
+			.shop_like_btn.btn-secondary {
+				background-color: $lightgray;
+				border-color: $lightgray;
+			}
 		}
 	}
 	.body {
@@ -136,7 +158,7 @@ body.shops {
 		p.description {
 			font-size: 1.0rem;
 			line-height: 1.4rem;
-		} 
+		}
 	}
 	h3 {
 		font-size: 1.2rem;
@@ -146,9 +168,90 @@ body.shops {
 		padding: 5px 0 2px 8px;
 		margin: 0 0 10px 0;
 	}
+	.review_header {
+		.post_review {
+			a.btn.btn-warning {
+				font-size: 0.75rem;
+				color: $white;
+				padding: 4px 8px;
+				i.material-icons {
+					position: relative;
+					top: 3px;
+					font-size: 0.9rem;
+				}
+			}
+		}
+	}
 	table.table {
 		th {
 			background-color: $footer-bg;
+		}
+	}
+	.shop_review {
+		.card-body {
+			.shop_review_header {
+				font-size: 0.85rem;
+				border-bottom: 1px solid $lightgray;
+				padding-bottom: 10px;
+				margin-bottom: 15px;
+				.purchased_at, .shop_review_evals, .shop_review_evals li {
+					display: inline-block;
+				}
+			}
+			.shop_review_body {
+				h2.name {
+					font-size: 1.2rem;
+					font-weight: 600;
+				}
+				p {
+					font-size: 1rem;
+					line-height: 1.4rem;
+					color: $base-text;
+					margin-bottom: 30px;
+				}
+				ul.shop_review_photos {
+					li {
+						display: inline-block;
+						width: 150px;
+						font-size: 0.75rem;
+						text-align: center;
+						margin: 0 10px 20px 0;
+					}
+				}
+			}
+		}
+		.card-footer {
+			background-color: $footer-bg;
+			.created_at {
+				font-size: 0.85rem;
+				text-align: right;
+			}
+			.shop_review_like {
+				display: inline-block;
+				vertical-align: top;
+				font-size: 0.85rem;
+			}
+			.shop_review_like_btn {
+				font-size: 0.75rem;
+				color: $white;
+				cursor: pointer;
+				margin-right: 5px;
+				.material-icons {
+					position: relative;
+					top: 2px;
+					color: $white;
+					font-size: 0.85rem;
+					line-height: 0.85rem;
+					padding-right: 0.1rem;
+				}
+			}
+			.shop_review_like_btn.btn {
+				padding: 0.2rem 0.5rem;
+			}
+			.shop_review_like_btn.btn-secondary {
+				background-color: $lightgray;
+				border-color: $lightgray;
+			}
 		}
 	}
 	.sidebar {

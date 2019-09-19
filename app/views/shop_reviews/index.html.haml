@@ -1,32 +1,31 @@
-%h1 全ての口コミ一覧
+= render partial: "shops/breadcrumb", locals: {shop: @shop}
 
--# 口コミ一覧
-- if @shop_reviews.count > 0
-  .reviews
-    %ul
-      - @shop_reviews.each do |shop_review|
-        %li.review
-          .review_header
-            .name= link_to shop_review.shop.name, shop_path(id: shop_review.shop.id)
-            .review= "口コミ#{shop_review.shop.shop_reviews.count}件"
-            .like= "いいね#{shop_review.shop_review_likes.count}件"
-            .point= "評価+#{shop_review.shop_review_evals.sum(:eval_value)}P"
-          .description
-            .item_name= shop_review.item_name
-            %p= shop_review.description.truncate(255, omission: '...')
-            - if shop_review.description.size > 255
-              .more= link_to "続きを読む", shop_review_path(id: shop_review.id)
-          %ul.photos
-            - shop_review.shop_review_photos.each do |photo|
-              %li.photo= image_tag photo.filename, alt: photo.comment.truncate(30)
-          .footer
-            .created_at= "投稿日時：#{l(shop_review.created_at, format: :long)}"
+= render partial: "shops/sns", locals: {shop: @shop}
 
-- else
-  %p 口コミはまだ登録されていません
+.row
+  .col-8
+    / メインコンテンツ
+    = render "shops/head", shop: @shop
 
-%br
-= will_paginate @shop_reviews, renderer: BootstrapPaginationHelper::LinkRenderer, :previous_label => '&laquo;', :next_label => '&raquo;'
+    .shop_reviews
+      %ul
+        - @shop_reviews.each do |shop_review|
+          %li.shop_review.card
+            .card-body
+              %h4.item_name= shop_review.item_name
+              %p= shop_review.description.truncate(255, omission: '...')
+              .more= link_to "続きを読む", shop_shop_review_path(shop_id: @shop.id, id: shop_review.id)
+              %ul.photos
+                - shop_review.shop_review_photos.each do |photo|
+                  %li.photo= image_tag photo.filename.thumb.url, alt: photo.comment.truncate(30), width: 150
+            .card-footer
+              .created_at= "投稿日時：#{l(shop_review.created_at, format: :long)}"
+      %br
+      = will_paginate @shop_reviews, renderer: BootstrapPaginationHelper::LinkRenderer, :previous_label => '&laquo;', :next_label => '&raquo;'
+
+  .col-4
+
+    = render "shops/sidebar", {shop: @shop}
 
 %hr
 

@@ -1,0 +1,24 @@
+.head
+  = hidden_field_tag :current_shop_id, shop.id
+  %h1= shop.name
+  .url
+    %i.material-icons link
+    = link_to shop.url, shop.url, target: :_blank
+  .meta
+    .like
+      %i.material-icons thumb_up
+      %span.like_num= shop.shop_likes.count
+      件
+    .review
+      %i.material-icons rate_review
+      = "#{shop.shop_reviews.count}件"
+    .point
+      %i.material-icons star
+      = "+#{shop.eval_point}P"
+    .photo
+      %i.material-icons photo
+      = "#{shop.total_photo_count}件"
+    - if user_signed_in?
+      .shop_like_btn.btn{class: shop.already_liked?(current_user) ? "already btn-secondary" : "btn-warning"}
+        %i.material-icons thumb_up
+        いいね

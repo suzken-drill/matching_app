@@ -1,2 +1,49 @@
-%h1 口コミ詳細
-%p Find me in app/views/shop_reviews/show.html.haml
+= render partial: "shops/breadcrumb", locals: {shop: @shop}
+
+= render partial: "shops/sns", locals: {shop: @shop}
+
+.row
+  .col-8
+    / メインコンテンツ
+    = render "shops/head", shop: @shop
+
+    / レビュー詳細
+    .shop_review.card
+      .card-body
+        .shop_review_header
+          = hidden_field_tag :current_shop_review_id, @shop_review.id
+          .reviewer
+            .name
+              = link_to users_show_user_path(@shop_review.user) do
+                = "#{@shop_review.user.nick_name} (#{@shop_review.user.shop_reviews.count})"
+              さんの口コミ
+          .purchased_at= "購入日時：#{l(@shop_review.purchased_at, format: :date)}"
+          = " / "
+          %ul.shop_review_evals
+            - @shop_review.shop_review_evals.each do |shop_review_eval|
+              %li{class: shop_review_eval.eval_key}= "#{ShopReviewEval::EVAL_KEY_SET[shop_review_eval.eval_key.to_sym]}：#{ShopReviewEval::EVAL_VALUE_SELECT.rassoc(shop_review_eval.eval_value)[0]}"
+        .shop_review_body
+          %h2.name= @shop_review.item_name
+          %p= @shop_review.description
+          - if @shop_review.shop_review_photos.present?
+            %ul.shop_review_photos
+              - @shop_review.shop_review_photos.each do |photo|
+                %li<>
+                  .photo= image_tag photo.filename.thumb.url, width: 150, alt: photo.comment
+      .card-footer
+        - if user_signed_in?
+          .shop_review_like_btn.btn{class: @shop_review.already_liked?(current_user) ? "already btn-secondary" : "btn-warning"}
+            %i.material-icons thumb_up
+            いいね
+        .shop_review_like
+          %span.shop_review_like_num<>= @shop_review.shop_review_likes.count
+          人がこの口コミにいいねしています
+        .created_at= "投稿日時：#{l(@shop_review.created_at, format: :long)}"
+
+  .col-4
+
+    = render "shops/sidebar", shop: @shop
+
+%hr
+
+= render "layouts/back"

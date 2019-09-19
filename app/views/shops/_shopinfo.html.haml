@@ -1,0 +1,43 @@
+%h3 ショップ情報
+%table.table.table-bordered
+  %tr
+    %th ショップ名
+    %td.name= shop.name
+  %tr
+    %th URL
+    %td.url= link_to shop.url, @shop.url, target: :_blank
+  %tr
+    %th ジャンル
+    %td.category= shop.category.name
+  %tr
+    %th 支払方法
+    %td.payment
+      - shop.shop_payments.each do |shop_payment|
+        .payment= shop_payment.payment.name
+  %tr
+    %th 営業日時
+    %td.biz-hour= shop.owner.biz_hour
+  %tr
+    %th 納期
+    %td.delivery= shop.owner.delivery
+  %tr
+    %th サポート体制
+    %td.support= shop.owner.support
+  %tr
+    %th SNS
+    %td.sns
+      .twitter= link_to "Twitter", "https://twitter.com/#{shop.twitter}", target: :_blank
+      .blog= link_to "ブログ", shop.blog, target: :_blank
+      .youtube= link_to "YouTube", shop.youtube, target: :_blank
+  %tr
+    %th 事業者
+    %td.owner-name= shop.owner.owner_name
+  %tr
+    %th 住所
+    %td.owner-address= shop.owner.address
+  %tr
+    %th 電話番号
+    %td.owner-tel= shop.owner.owner_tel
+  %tr
+    %th その他
+    %td.owner-other= shop.owner.owner_introduction
