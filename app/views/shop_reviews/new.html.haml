@@ -1,5 +1,5 @@
 .shop_review_header
-  %h2= @shop.name
+  %h2= "#{@shop.name}の口コミ"
 
 - if @shop_review.errors.any?
   #error_explanation
@@ -8,7 +8,7 @@
         %li= message
 
 .shop_review_body
-  = form_for @shop_review, url: shop_reviews_path do |f|
+  = form_for @shop_review, url: shop_shop_reviews_path do |f|
     .review_field
       = f.hidden_field :shop_id, value: @shop.id
       .form-group

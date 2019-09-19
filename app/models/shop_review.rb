@@ -19,4 +19,7 @@ class ShopReview < ApplicationRecord
   def eval_value_count
     shop_review_evals.where(eval_value: 1).count
   end
+  def already_liked?(user)
+    shop_review_likes.find_by(user_id: user.id).present?
+  end
 end

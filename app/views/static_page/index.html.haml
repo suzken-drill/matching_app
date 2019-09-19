@@ -74,10 +74,7 @@
                 .review-body
                   .item_name= shop_review.item_name
                   %p= shop_review.description.truncate(255, omission: '...')
-                  - if shop_review.description.size > 255
-                    .more= link_to "続きを読む", shop_review_path(id: shop_review.id)
-                    -# shop_review.shop_review_photos.each do |photo|
-                      %li.photo=# image_tag photo.filename.thumb.url, alt: photo.comment.truncate(10)
+                  .more= link_to "続きを読む", shop_shop_review_path(shop_id: shop_review.shop_id, id: shop_review.id)
               .card-footer
                 .created_at= "投稿日時：#{l(shop_review.created_at, format: :long)}"
                 .post_user<>

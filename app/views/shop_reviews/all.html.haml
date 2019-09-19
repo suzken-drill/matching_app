@@ -1,0 +1,33 @@
+%h1 全ての口コミ一覧
+
+-# 口コミ一覧
+- if @shop_reviews.count > 0
+  .reviews
+    %ul
+      - @shop_reviews.each do |shop_review|
+        %li.review
+          .review_header
+            .name= link_to shop_review.shop.name, shop_path(id: shop_review.shop.id)
+            .review= "口コミ#{shop_review.shop.shop_reviews.count}件"
+            .like= "いいね#{shop_review.shop_review_likes.count}件"
+            .point= "評価+#{shop_review.shop_review_evals.sum(:eval_value)}P"
+          .description
+            .item_name= shop_review.item_name
+            %p= shop_review.description.truncate(255, omission: '...')
+            - if shop_review.description.size > 255
+              .more= link_to "続きを読む", shop_review_path(id: shop_review.id)
+          %ul.photos
+            - shop_review.shop_review_photos.each do |photo|
+              %li.photo= image_tag photo.filename.thumb.url, alt: photo.comment.truncate(30), width: 150
+          .footer
+            .created_at= "投稿日時：#{l(shop_review.created_at, format: :long)}"
+
+- else
+  %p 口コミはまだ登録されていません
+
+%br
+= will_paginate @shop_reviews, renderer: BootstrapPaginationHelper::LinkRenderer, :previous_label => '&laquo;', :next_label => '&raquo;'
+
+%hr
+
+= render "layouts/back"

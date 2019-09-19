@@ -47,24 +47,28 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
 
   # shops
-  get 'shop/:id', to: 'shops#show', as: 'shop'
+  resources :shops, only: [:show] do
+    resources :shop_reviews, only: [:index, :new, :show, :create]
+  end
 
   # admin_posts
   resources :posts, controller: :admin_posts, only: [:index, :show]
   resources :reviews, controller: :admin_reviews, only: [:index, :show]
 
   # shop_reviews
-  resources :shop_reviews, only: [:index, :show, :create] do
-    member do
-      get 'new', to: 'shop_reviews#new', as: 'new'
-    end
-  end
+  get 'shop_reviews', to: 'shop_reviews#all', as: 'all_shop_reviews'
 
   # search
   get 'searchs/', to: 'searchs#index', as: 'searchs'
 
   # follow/unfollow
   resources :user_relationships, only: [:create, :destroy]
+
+  # shop_like_btn
+  resources :shop_likes, only: [:create, :destroy]
+
+  #shop_review_like_btn
+  resources :shop_review_likes, only: [:create, :destroy]
 
   # letter opener
   if Rails.env.development?

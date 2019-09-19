@@ -5,24 +5,8 @@
 .row
   .col-8
     / メインコンテンツ
-    .head
-      %h1= @shop.name
-      .url
-        %i.material-icons link
-        = link_to @shop.url, @shop.url, target: :_blank
-      .meta
-        .like
-          %i.material-icons thumb_up
-          = "#{@shop.shop_likes.count}件"
-        .review
-          %i.material-icons rate_review
-          = "#{@shop.shop_reviews.count}件"
-        .point
-          %i.material-icons star
-          = "+#{@shop.eval_point}P"
-        .photo
-          %i.material-icons photo
-          = "#{@shop.total_photo_count}件"
+    = render "shops/head", shop: @shop
+
     .body
       .owner_images
         #carouselExampleFade.carousel.slide.carousel-fade{ data: { ride: "carousel" } }
@@ -52,70 +36,35 @@
           %li.photo
             .image= image_tag photo.filename.thumb.url, alt: photo.comment
             .comment= photo.comment
+      - if @shop.total_photo_count > Shop::SHOW_PHOTO_NUM
+        全ての写真を見る
+
     %br
     -# 口コミ一覧
     %h3 口コミ
     .review_header
       - if user_signed_in?
-        .post_review= link_to "投稿する", new_shop_review_path(id: @shop.id)
-      - if @shop.shop_reviews.count > 0
-        %ul.reviews
-          - @shop.shop_reviews.order(created_at: :desc).limit(Shop::SHOW_REVIEW_NUM).each do |review|
-            %li.review
-              .user
-                %span.name= "投稿者:#{review.user.nick_name}"
-                %span.count= "(#{review.user.shop_reviews.count}件)"
-              %h4.item_name= review.item_name
-              %p.description= review.description
-              .footer
-                .purchased_at= "購入日時:#{l(review.purchased_at, format: :date)}"
-                .total_eval= "評価+#{review.eval_value_count}P"
-                .like= "いいね#{review.shop_review_likes.count}件"
+        .post_review
+          = link_to new_shop_shop_review_path(shop_id: @shop.id), class: "btn btn-warning" do
+            %i.material-icons feedback
+            投稿する
+    - if @shop.shop_reviews.count > 0
+      %ul.reviews
+        - @shop.shop_reviews.order(created_at: :desc).limit(Shop::SHOW_REVIEW_NUM).each do |review|
+          %li.review
+            .user
+              %span.name= "投稿者:#{review.user.nick_name}"
+              %span.count= "(#{review.user.shop_reviews.count}件)"
+            %h4.item_name= review.item_name
+            %p.description= review.description
+            .footer
+              .purchased_at= "購入日時:#{l(review.purchased_at, format: :date)}"
+              .total_eval= "評価+#{review.eval_value_count}P"
+              .like= "いいね#{review.shop_review_likes.count}件"
+    = link_to "全ての口コミを見る", shop_shop_reviews_path(shop_id: @shop.id)
     %br
     -# 店舗情報
-    %h3 ショップ情報
-    %table.table.table-bordered
-      %tr
-        %th ショップ名
-        %td.name= @shop.name
-      %tr
-        %th URL
-        %td.url= link_to @shop.url, @shop.url, target: :_blank
-      %tr
-        %th ジャンル
-        %td.category= @shop.category.name
-      %tr
-        %th 支払方法
-        %td.payment
-          - @shop.shop_payments.each do |shop_payment|
-            .payment= shop_payment.payment.name
-      %tr
-        %th 営業日時
-        %td.biz-hour= @shop.owner.biz_hour
-      %tr
-        %th 納期
-        %td.delivery= @shop.owner.delivery
-      %tr
-        %th サポート体制
-        %td.support= @shop.owner.support
-      %tr
-        %th SNS
-        %td.sns
-          .twitter= link_to "Twitter", "https://twitter.com/#{@shop.twitter}", target: :_blank
-          .blog= link_to "ブログ", @shop.blog, target: :_blank
-          .youtube= link_to "YouTube", @shop.youtube, target: :_blank
-      %tr
-        %th 事業者
-        %td.owner-name= @shop.owner.owner_name
-      %tr
-        %th 住所
-        %td.owner-address= @shop.owner.address
-      %tr
-        %th 電話番号
-        %td.owner-tel= @shop.owner.owner_tel
-      %tr
-        %th その他
-        %td.owner-other= @shop.owner.owner_introduction
+    = render "shops/shopinfo", shop: @shop
 
   .col-4
 

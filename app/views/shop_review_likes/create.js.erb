@@ -1,0 +1,11 @@
+$('span.shop_review_like_num').html('<%= @shop_review_like_num %>');
+$('div.shop_review_like_btn').toggleClass('already');
+if ($('div.shop_review_like_btn').hasClass('btn-warning')) {
+  $('div.shop_review_like_btn').removeClass('btn-warning');
+  $('div.shop_review_like_btn').addClass('btn-secondary');
+} else if($('div.shop_review_like_btn').hasClass('btn-secondary')) {
+  $('div.shop_review_like_btn').removeClass('btn-secondary');
+  $('div.shop_review_like_btn').addClass('btn-warning');
+} else {
+  $('div.shop_review_like_btn').addClass('btn-warning');
+}
