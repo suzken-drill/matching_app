@@ -6,8 +6,8 @@ class ShopLikesController < ApplicationController
 
   # いいね
   def create
-  	shop = Shop.find(params[:id])
-  	shop_like = ShopLike.new(shop_id: shop.id, user_id: current_user.id)
+    shop = Shop.find(params[:id])
+    shop_like = ShopLike.new(shop_id: shop.id, user_id: current_user.id)
     if shop_like.save
       @shop_like_num = shop.shop_likes.count
       render action: :create
@@ -18,7 +18,7 @@ class ShopLikesController < ApplicationController
 
   # いいね取り消し
   def destroy
-  	shop = Shop.find(params[:id])
+    shop = Shop.find(params[:id])
     shop.shop_likes.find_by(user_id: current_user.id).destroy
     @shop_like_num = shop.shop_likes.count
     render action: :create
