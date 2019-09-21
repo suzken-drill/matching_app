@@ -34,34 +34,42 @@
       %ul.photos
         - @shop.total_photos.limit(Shop::SHOW_PHOTO_NUM).each do |photo|
           %li.photo
-            .image= image_tag photo.filename.thumb.url, alt: photo.comment
-            .comment= photo.comment
+            .image= image_tag photo.filename.thumb.url, alt: photo.comment, width: 175
       - if @shop.total_photo_count > Shop::SHOW_PHOTO_NUM
         全ての写真を見る
 
     %br
     -# 口コミ一覧
     %h3 口コミ
-    .review_header
-      - if user_signed_in?
+    - if user_signed_in?
+      .shop_review_post
         .post_review
           = link_to new_shop_shop_review_path(shop_id: @shop.id), class: "btn btn-warning" do
             %i.material-icons feedback
             投稿する
     - if @shop.shop_reviews.count > 0
-      %ul.reviews
-        - @shop.shop_reviews.order(created_at: :desc).limit(Shop::SHOW_REVIEW_NUM).each do |review|
-          %li.review
-            .user
-              %span.name= "投稿者:#{review.user.nick_name}"
-              %span.count= "(#{review.user.shop_reviews.count}件)"
-            %h4.item_name= review.item_name
-            %p.description= review.description
-            .footer
-              .purchased_at= "購入日時:#{l(review.purchased_at, format: :date)}"
-              .total_eval= "評価+#{review.eval_value_count}P"
-              .like= "いいね#{review.shop_review_likes.count}件"
-    = link_to "全ての口コミを見る", shop_shop_reviews_path(shop_id: @shop.id)
+      %ul.shop_reviews
+        - @shop.shop_reviews.limit(Shop::SHOW_REVIEW_NUM).each do |review|
+          %li.shop_review.card
+            .card-body
+              .shop_review_header
+                .user<>
+                  = render 'users/users/user_thumb', user: review.user
+              .shop_review_body
+                %h2.name= review.item_name
+                %p.description
+                  = review.description.truncate(255, omission: '...')
+                  %br
+                  %span.more= link_to "続きを読む", shop_shop_review_path(shop_id: @shop.id, id: review.id)
+                - if review.shop_review_photos
+                  %ul.shop_review_photos
+                    - review.shop_review_photos.each do |photo|
+                      %li.shop_review_photo= image_tag photo.filename.thumb.url, alt: photo.comment, width: 164
+              .shop_review_footer
+                .purchased_at= "購入日時:#{l(review.purchased_at, format: :date)}"
+                .total_eval= "評価:+#{review.eval_value_count}ポイント"
+                .like= "いいね#{review.shop_review_likes.count}件"
+    .shop_shop_reviews= link_to "全ての口コミを見る", shop_shop_reviews_path(shop_id: @shop.id), class: "btn btn-warning"
     %br
     -# 店舗情報
     = render "shops/shopinfo", shop: @shop

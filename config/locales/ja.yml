@@ -12,6 +12,7 @@ ja:
         email: メールアドレス
         nick_name: ニックネーム
         introduction: 自己紹介
+        current_password: 現在のパスワード
       owner:
         owner_name: 事業者名
         owner_introduction: 備考

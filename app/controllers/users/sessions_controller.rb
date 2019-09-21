@@ -25,4 +25,9 @@ class Users::SessionsController < Devise::SessionsController
   # def configure_sign_in_params
   #   devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
   # end
+
+  # ログイン・ログアウト後のパスを設定
+  def after_sign_in_path_for(resource)
+    edit_user_registration_path
+  end
 end

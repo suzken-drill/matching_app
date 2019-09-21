@@ -1,5 +1,5 @@
 %h3 ショップ情報
-%table.table.table-bordered
+%table.table.table-bordered.shop_info
   %tr
     %th ショップ名
     %td.name= shop.name
@@ -11,7 +11,7 @@
     %td.category= shop.category.name
   %tr
     %th 支払方法
-    %td.payment
+    %td.payments
       - shop.shop_payments.each do |shop_payment|
         .payment= shop_payment.payment.name
   %tr
@@ -26,9 +26,12 @@
   %tr
     %th SNS
     %td.sns
-      .twitter= link_to "Twitter", "https://twitter.com/#{shop.twitter}", target: :_blank
-      .blog= link_to "ブログ", shop.blog, target: :_blank
-      .youtube= link_to "YouTube", shop.youtube, target: :_blank
+      - if shop.twitter.present?
+        .twitter= link_to "Twitter", "https://twitter.com/#{shop.twitter}", target: :_blank
+      - if shop.blog.present?
+        .blog= link_to "ブログ", shop.blog, target: :_blank if shop.blog
+      - if shop.youtube.present?
+        .youtube= link_to "YouTube", shop.youtube, target: :_blank if shop.youtube
   %tr
     %th 事業者
     %td.owner-name= shop.owner.owner_name

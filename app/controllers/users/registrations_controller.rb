@@ -21,9 +21,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # PUT /resource
-  # def update
-  #   super
-  # end
+  def update
+    super
+  end
 
   # DELETE /resource
   # def destroy
@@ -48,7 +48,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # If you have extra params to permit, append them to the sanitizer.
   def configure_account_update_params
-    devise_parameter_sanitizer.permit(:account_update, keys: [:nick_name, :introduction])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:nick_name, :introduction, :filename])
   end
 
   # The path used after sign up.
@@ -57,8 +57,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
     users_show_user_path(id: current_user.id)
   end
 
+  def after_update_path_for(resource)
+    users_show_user_path(resource.id)
+  end
+
   # The path used after sign up for inactive accounts.
   # def after_inactive_sign_up_path_for(resource)
   #   super(resource)
   # end
+  private
+    def user_update_params
+      params.require(:user).permit(User::REGISTRABLE_ATTRIBUTES)
+    end
 end

@@ -7,19 +7,28 @@
     / メインコンテンツ
     = render "shops/head", shop: @shop
 
-    .shop_reviews
-      %ul
-        - @shop_reviews.each do |shop_review|
+    - if @shop_reviews
+      %ul.shop_reviews
+        - @shop_reviews.each do |review|
           %li.shop_review.card
             .card-body
-              %h4.item_name= shop_review.item_name
-              %p= shop_review.description.truncate(255, omission: '...')
-              .more= link_to "続きを読む", shop_shop_review_path(shop_id: @shop.id, id: shop_review.id)
-              %ul.photos
-                - shop_review.shop_review_photos.each do |photo|
-                  %li.photo= image_tag photo.filename.thumb.url, alt: photo.comment.truncate(30), width: 150
-            .card-footer
-              .created_at= "投稿日時：#{l(shop_review.created_at, format: :long)}"
+              .shop_review_header
+                .user<>
+                  = render 'users/users/user_thumb', user: review.user
+              .shop_review_body
+                %h2.name= review.item_name
+                %p
+                  = review.description.truncate(255, omission: '...')
+                  %br
+                  %span.more= link_to "続きを読む", shop_shop_review_path(shop_id: @shop.id, id: review.id)
+                - if review.shop_review_photos
+                  %ul.shop_review_photos
+                    - review.shop_review_photos.each do |photo|
+                      %li.shop_review_photo= image_tag photo.filename.thumb.url, alt: photo.comment.truncate(30), width: 164
+              .shop_review_footer
+                .purchased_at= "購入日時:#{l(review.purchased_at, format: :date)}"
+                .total_eval= "評価:+#{review.eval_value_count}ポイント"
+                .like= "いいね#{review.shop_review_likes.count}件"
       %br
       = will_paginate @shop_reviews, renderer: BootstrapPaginationHelper::LinkRenderer, :previous_label => '&laquo;', :next_label => '&raquo;'
 
