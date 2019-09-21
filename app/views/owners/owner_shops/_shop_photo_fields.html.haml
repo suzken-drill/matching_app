@@ -1,6 +1,6 @@
 .nested-fields
   .form-group
-    .image= image_tag f.object.filename.thumb.url if f.object.filename.thumb.url
+    .image= image_tag f.object.filename.thumb.url if f.object.filename.thumb.url.present?
     .filename= f.file_field :filename, class: 'file-field'
     .photo_type= f.select :photo_type, ShopPhoto::PHOTO_TYPE_VALUE_SELECT, { include_blank: true }, class: 'form-control'
     = link_to_remove_association '写真の削除', f
