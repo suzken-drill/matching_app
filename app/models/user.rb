@@ -5,8 +5,11 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :confirmable, :lockable, :trackable
 
+  mount_uploader :filename, UsersUploader
+
   has_many :shop_reviews
   has_many :shop_likes
+  has_many :shop_review_likes
   # フォロー
   has_many :active_relationships, class_name: "UserRelationship", foreign_key: "follower_id", dependent: :destroy
   has_many :following, through: :active_relationships, source: :followed
@@ -16,6 +19,10 @@ class User < ApplicationRecord
 
   # constant
   REVIEW_PER_PAGE = 10
+  REGISTRABLE_ATTRIBUTES = %i(email filename nick_name introduction password password_confirmation)
+
+  validates :nick_name, presence: {message: I18n.t(attribute: :nick_name, message: :blank)}, on: :profile
+  validates :introduction, presence: {message: I18n.t(attribute: :introduction, message: :blank)}, on: :profile
 
   def total_photo_count
   	ShopReviewPhoto.where(shop_review_id: self.shop_reviews.pluck(:id)).count
@@ -28,6 +35,9 @@ class User < ApplicationRecord
   end
   def following?(other_user)
     following.include?(other_user)
+  end
+  def self.active(id)
+    where(id: id).where.not(confirmed_at: nil).first
   end
 
 end

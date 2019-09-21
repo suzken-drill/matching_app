@@ -6,71 +6,90 @@
         よりニックネームを登録してください
   - else
     = hidden_field_tag :show_user_id, @user.id
-    - if current_user.following?(@user)
-      .follow_btn.already.btn.btn-primary フォロー中
+.row
+  .col-3.profile_image
+    / プロフィール写真
+    - if @user.filename.present?
+      .user_photo= image_tag @user.filename.thumb.url, alt: @user.nick_name
+    - if user_signed_in?
+      - if @user != current_user
+        - if current_user.following?(@user)
+          .follow_btn.already.btn.btn-light
+            %i.material-icons person_add
+            %span.text フォロー中
+        - else
+          .follow_btn.btn.btn-warning
+            %i.material-icons person_add
+            %span.text フォローする
+  .col-9.profile_body
+    / 名前
+    .nick_name= @user.nick_name + "さん"
+
+    / 各種活動状況
+    .activities
+      .review<>
+        .title レビュー数
+        .data
+          = @user.shop_reviews.count
+          件
+      .photo<>
+        .title 写真
+        .data
+          = @user.total_photo_count
+          枚
+      .like<>
+        .title いいねしたショップ
+        .data
+          = @user.shop_likes.count
+          件
+      .review_like<>
+        .title いいねした口コミ
+        .data
+          = @user.shop_review_likes.count
+          件
+      .following<>
+        .title フォロー
+        .data
+          = @user.following.count
+          人
+      .follower<>
+        .title フォロワー
+        .data
+          = @user.followers.count
+          人
+
+    / 自己紹介
+    %h2 プロフィール
+    %p.introduction= @user.introduction.gsub(/\R/, "<br>").html_safe
+
+    / 口コミ一覧
+    %h2 口コミ
+    - if @shop_reviews.count > 0
+      %ul.shop_reviews
+        - @shop_reviews.each do |shop_review|
+          %li.shop_review.card
+            .card-body
+              .shop_review_header
+                .name= link_to shop_review.shop.name, shop_path(id: shop_review.shop.id)
+                .purchased_at= "購入日時:#{l(shop_review.purchased_at, format: :date)} / "
+                %ul.shop_review_evals
+                  - shop_review.shop_review_evals.each do |shop_review_eval|
+                    %li{class: shop_review_eval.eval_key}= "#{ShopReviewEval::EVAL_KEY_SET[shop_review_eval.eval_key.to_sym]}：#{ShopReviewEval::EVAL_VALUE_SELECT.rassoc(shop_review_eval.eval_value)[0]}"
+              .shop_review_body
+                %h2.name= shop_review.item_name
+                %p.description= shop_review.description
+                .more= link_to "続きを読む", shop_shop_review_path(shop_id: shop_review.shop_id, id: shop_review.id)
+                - if shop_review.shop_review_photos.present?
+                  %ul.shop_review_photos
+                    - shop_review.shop_review_photos.each do |photo|
+                      %li= image_tag photo.filename.thumb.url, alt: photo.comment, width: 150
+            .card-footer
+              .shop_review_like= "#{shop_review.shop_review_likes.count}人がこの口コミにいいねしています"
+              .created_at= "投稿日時：#{l(shop_review.created_at, format: :long)}"
+
+      %br
+      = will_paginate @shop_reviews, renderer: BootstrapPaginationHelper::LinkRenderer, :previous_label => '&laquo;', :next_label => '&raquo;'
     - else
-      .follow_btn.btn.btn-light フォローする
-
--# 名前
-%h1= @user.nick_name + "さん"
-
--# 各種活動状況
-%h2 活動状況
-.activities
-  .review<>
-    レビュー数
-    .data
-      = @user.shop_reviews.count
-      件
-  .photo<>
-    写真
-    .data
-      = @user.total_photo_count
-      枚
-  .like<>
-    いいねしたショップ
-    .data
-      = @user.shop_likes.count
-      件
-  .following<>
-    フォロー中
-    .data
-      = @user.following.count
-      人
-  .follower<>
-    フォロワー数
-    .data
-      = @user.followers.count
-      人
-
--# 自己紹介
-%h2 自己紹介
-%p.introduction= @user.introduction.gsub(/\R/, "<br>").html_safe
-
--# 口コミ一覧
-- if @shop_reviews.count > 0
-  %h2 口コミ
-  .reviews
-    %ul
-      - @shop_reviews.each do |shop_review|
-        %li.review
-          .review_header
-            .name= link_to shop_review.shop.name, shop_path(id: shop_review.shop.id)
-            .point= "評価+#{shop_review.shop_review_evals.sum(:eval_value)}P"
-          .description
-            .item_name= shop_review.item_name
-            %p= shop_review.description.truncate(255, omission: '...')
-            - if shop_review.description.size > 255
-              .more= link_to "続きを読む", shop_review_path(id: shop_review.id)
-          %ul.photos
-            - shop_review.shop_review_photos.each do |photo|
-              %li.photo= image_tag photo.filename.thumb.url, alt: photo.comment.truncate(30)
-          .footer
-            .like= "いいね#{shop_review.shop_review_likes.count}件"
-            .created_at= "投稿日時：#{l(shop_review.created_at, format: :long)}"
-
-  %br
-  = will_paginate @shop_reviews, renderer: BootstrapPaginationHelper::LinkRenderer, :previous_label => '&laquo;', :next_label => '&raquo;'
-
-
-
+      %p まだ口コミを投稿していません
+%hr
+= render 'layouts/back'

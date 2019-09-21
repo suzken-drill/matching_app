@@ -25,11 +25,11 @@
         .shop_review_body
           %h2.name= @shop_review.item_name
           %p= @shop_review.description
-          - if @shop_review.shop_review_photos.present?
+          - if @shop_review.shop_review_photos
             %ul.shop_review_photos
               - @shop_review.shop_review_photos.each do |photo|
                 %li<>
-                  .photo= image_tag photo.filename.thumb.url, width: 150, alt: photo.comment
+                  .photo= image_tag photo.filename.thumb.url, width: 164, alt: photo.comment
       .card-footer
         - if user_signed_in?
           .shop_review_like_btn.btn{class: @shop_review.already_liked?(current_user) ? "already btn-secondary" : "btn-warning"}

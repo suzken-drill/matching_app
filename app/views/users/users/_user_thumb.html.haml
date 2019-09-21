@@ -1,0 +1,4 @@
+.photo= image_tag user.filename.thumb.url, alt: user.nick_name, width: 20
+.name<>
+  = link_to user.nick_name, users_show_user_path(id: user.id)
+  %span.count= " (#{user.shop_reviews.count}件)"

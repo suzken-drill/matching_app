@@ -1,13 +1,13 @@
 $('div.follow_btn').toggleClass('already');
-if($('div.follow_btn').hasClass('btn-primary')) {
-  $('div.follow_btn').removeClass('btn-primary');
+if($('div.follow_btn').hasClass('btn-warning')) {
+  $('div.follow_btn').removeClass('btn-warning');
   $('div.follow_btn').addClass('btn-light');
-  $('div.follow_btn').html('フォローする');
+  $('div.follow_btn .text').html('フォロー中');
 } else if($('div.follow_btn').hasClass('btn-light')) {
   $('div.follow_btn').removeClass('btn-light');
-  $('div.follow_btn').addClass('btn-primary');
-  $('div.follow_btn').html('フォロー中');
+  $('div.follow_btn').addClass('btn-warning');
+  $('div.follow_btn .text').html('フォローする');
 } else {
-  $('div.follow_btn').addClass('btn-primary');
-  $('div.follow_btn').html('フォロー中');
+  $('div.follow_btn').addClass('btn-warning');
+  $('div.follow_btn .text').html('フォローする');
 }
