@@ -4,16 +4,16 @@
 = form_for @contact do |f|
   .form-group
     = f.label :name, "お名前"
-    = @contact.name
-    = f.hidden_field :name, value: @contact.name
+    = f.object.name
+    = f.hidden_field :name, value: f.object.name
   .form-group
     = f.label :email, "メールアドレス"
-    = @contact.email
-    = f.hidden_field :email, value: @contact.email
+    = f.object.email
+    = f.hidden_field :email, value: f.object.email
   .form-group
     = f.label :message, "お問い合わせ内容"
-    = @contact.message.gsub(/\R/, "<br>").html_safe
-    = f.hidden_field :message, value: @contact.message
+    = f.object.message.gsub(/\R/, "<br>").html_safe
+    = f.hidden_field :message, value: f.object.message
   .send_btn
     = f.submit "送　信", class: "btn btn-primary"
     = "　"
